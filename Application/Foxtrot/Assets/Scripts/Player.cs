@@ -1,7 +1,17 @@
-﻿using UnityEngine;
+﻿/******************************************************************
+ * File:            Player.cs
+ * Author:          David Hite
+ * Date Created:    10/2/2016
+ * Date Modified:   10/3/2016
+ * Description:
+ * Contains the Player class, which controls the behavior of the 
+ * Player object
+ ******************************************************************/
+using UnityEngine;
 using System.Collections;
 
 public class Player : MonoBehaviour {
+  // Member variables
   private const float m_MoveSpeed = 0.1f;
   private const float m_CameraSpeed = 0.05f;
   private float m_SpriteWidthFromCenter;
@@ -12,25 +22,33 @@ public class Player : MonoBehaviour {
   private float m_MinY;
   private float m_MaxY;
 
+  // For prefab use
   public SpriteRenderer SmallStar;
 
 	// Use this for initialization
 	void Start ()
   {
+    // Get the size of the sprite (half), for checking boundaries
     var sprite = GetComponent<SpriteRenderer>();
     m_SpriteWidthFromCenter = (float)(sprite.bounds.size.x / 2);
     m_SpriteHeightFromCenter = (float)(sprite.bounds.size.y / 2);
+
+    // If we decide to have the camera move, then this should be in Update() instead
+    GetCameraBounds();
   }
 	
 	// Update is called once per frame
 	void Update () {
-    Vector3 newPosition = transform.position;
-    GetCameraBounds();
+    // TODO: this should probably go in a different script,
+    // maybe one associated with the scene or camera
     CreateRandomStars();
 
+    // Get movement input from player
+    Vector3 newPosition = transform.position;
     if (Input.GetKey(KeyCode.LeftArrow))
     {
       newPosition.x -= m_MoveSpeed;
+      // Check for camera boundaries
       if (newPosition.x - m_SpriteWidthFromCenter < m_MinX)
         newPosition.x = m_MinX + m_SpriteWidthFromCenter;
     }
@@ -60,6 +78,11 @@ public class Player : MonoBehaviour {
     transform.position = newPosition;
 	}
 
+  /***********************************************************
+  /** GetCameraBounds
+   Gets the minimum and maximum x and y values for the camera
+   view.
+  /***********************************************************/
   private void GetCameraBounds()
   {
     float camDistance = Vector3.Distance(transform.position, Camera.main.transform.position);
@@ -72,13 +95,19 @@ public class Player : MonoBehaviour {
     m_MaxY = topCorner.y;
   }
 
+
+  /***********************************************************
+  /** CreateRandomStars
+   Instantiates a SmallStar object just to the right of the
+   camera view at a random y position.
+  /***********************************************************/
   private void CreateRandomStars()
   {
+    // Do not generate a star at every update; reduce probability of generation
     int rand = (int)Random.Range(0, 20);
 
     if (rand == 2)
     {
-      //SmallStar starInstance;
       Vector3 position = new Vector3(m_MaxX + 4, Random.Range(m_MinY, m_MaxY));
       Instantiate(Resources.Load("SmallStar"), position, Quaternion.identity);
     }
