@@ -2,12 +2,13 @@
  * File:            Player.cs
  * Author:          David Hite
  * Date Created:    10/2/2016
- * Date Modified:   10/3/2016
+ * Date Modified:   10/9/2016
  * Description:
  * Contains the Player class, which controls the behavior of the 
  * Player object
  ******************************************************************/
 using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 public class Player : MonoBehaviour {
@@ -17,10 +18,20 @@ public class Player : MonoBehaviour {
   private float m_SpriteWidthFromCenter;
   private float m_SpriteHeightFromCenter;
 
+  // Health values
+  private float m_MaxHealth;
+  public float m_CurrentHealth;
+
+  // Boundaries for player, set by camera view
   private float m_MinX;
   private float m_MaxX;
   private float m_MinY;
   private float m_MaxY;
+  
+  public AudioSource    m_FireAudio;
+  public AudioSource    m_ExplosionAudio;
+
+  public Slider m_HealthSlider;
 
   // For prefab use
   public SpriteRenderer SmallStar;
@@ -35,6 +46,14 @@ public class Player : MonoBehaviour {
 
     // If we decide to have the camera move, then this should be in Update() instead
     GetCameraBounds();
+
+    var sounds = GetComponents<AudioSource>();
+    m_ExplosionAudio = sounds[1];
+    m_FireAudio = sounds[0];
+    
+    m_HealthSlider = GetComponentInChildren<Slider>();//GetComponent<Slider>();
+    m_MaxHealth = 10f;
+    m_CurrentHealth = m_HealthSlider.value;
   }
 	
 	// Update is called once per frame
@@ -44,6 +63,54 @@ public class Player : MonoBehaviour {
     CreateRandomStars();
 
     // Get movement input from player
+    transform.position = GetPlayerControls();
+
+    if (Input.GetKeyDown(KeyCode.Space))
+    {
+      m_FireAudio.Play();
+    }
+    if (Input.GetKeyDown(KeyCode.F))
+    {
+      m_ExplosionAudio.Play();
+    }
+
+    if (Input.GetKeyDown(KeyCode.V))
+    {
+      if (m_CurrentHealth < m_MaxHealth)
+      {
+        m_CurrentHealth += 1f;
+      }
+    }
+    if (Input.GetKeyDown(KeyCode.C))
+    {
+      if (m_CurrentHealth > 0)
+      {
+        m_CurrentHealth -= 1f;
+      }
+    }
+
+    m_HealthSlider.value = m_CurrentHealth;
+	}
+
+  /***********************************************************
+  /** GetCameraBounds
+   Gets the minimum and maximum x and y values for the camera
+   view.
+  /***********************************************************/
+  private void GetCameraBounds()
+  {
+    float camDistance = Vector3.Distance(transform.position, Camera.main.transform.position);
+    Vector2 bottomCorner = Camera.main.ViewportToWorldPoint(new Vector3(0, 0, camDistance));
+    Vector2 topCorner = Camera.main.ViewportToWorldPoint(new Vector3(1, 1, camDistance));
+
+    m_MinX = bottomCorner.x;
+    m_MaxX = topCorner.x;
+    m_MinY = bottomCorner.y;
+    m_MaxY = topCorner.y;
+  }
+
+  Vector3 GetPlayerControls()
+  {
     Vector3 newPosition = transform.position;
     if (Input.GetKey(KeyCode.LeftArrow))
     {
@@ -75,26 +142,8 @@ public class Player : MonoBehaviour {
       }
     }
 
-    transform.position = newPosition;
-	}
-
-  /***********************************************************
-  /** GetCameraBounds
-   Gets the minimum and maximum x and y values for the camera
-   view.
-  /***********************************************************/
-  private void GetCameraBounds()
-  {
-    float camDistance = Vector3.Distance(transform.position, Camera.main.transform.position);
-    Vector2 bottomCorner = Camera.main.ViewportToWorldPoint(new Vector3(0, 0, camDistance));
-    Vector2 topCorner = Camera.main.ViewportToWorldPoint(new Vector3(1, 1, camDistance));
-
-    m_MinX = bottomCorner.x;
-    m_MaxX = topCorner.x;
-    m_MinY = bottomCorner.y;
-    m_MaxY = topCorner.y;
+    return newPosition;
   }
-
 
   /***********************************************************
   /** CreateRandomStars
@@ -108,7 +157,7 @@ public class Player : MonoBehaviour {
 
     if (rand == 2)
     {
-      Vector3 position = new Vector3(m_MaxX + 4, Random.Range(m_MinY, m_MaxY));
+      Vector3 position = new Vector3(m_MaxX, Random.Range(m_MinY, m_MaxY));
       Instantiate(Resources.Load("SmallStar"), position, Quaternion.identity);
     }
   }
