@@ -2,7 +2,7 @@
  * File:            Player.cs
  * Author:          David Hite
  * Date Created:    10/2/2016
- * Date Modified:   10/9/2016
+ * Date Modified:   10/10/2016
  * Description:
  * Contains the Player class, which controls the behavior of the 
  * Player object
@@ -28,9 +28,11 @@ public class Player : MonoBehaviour {
   private float m_MinY;
   private float m_MaxY;
   
+  // AudioSources associated with player
   public AudioSource    m_FireAudio;
   public AudioSource    m_ExplosionAudio;
 
+  // Connection to health slider
   public Slider m_HealthSlider;
 
   // For prefab use
@@ -109,6 +111,11 @@ public class Player : MonoBehaviour {
     m_MaxY = topCorner.y;
   }
 
+  /***********************************************************
+  /** GetPlayerControls
+   Checks for directional movement from the keyboard and moves
+   the player object accordingly
+  /***********************************************************/
   Vector3 GetPlayerControls()
   {
     Vector3 newPosition = transform.position;
