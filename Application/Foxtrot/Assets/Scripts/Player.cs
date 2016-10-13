@@ -35,9 +35,6 @@ public class Player : MonoBehaviour {
   // Connection to health slider
   public Slider m_HealthSlider;
 
-  // For prefab use
-  public SpriteRenderer SmallStar;
-
 	// Use this for initialization
 	void Start ()
   {
@@ -161,11 +158,17 @@ public class Player : MonoBehaviour {
   {
     // Do not generate a star at every update; reduce probability of generation
     int rand = (int)Random.Range(0, 20);
+    int rand2 = (int)Random.Range(0, 70);
 
     if (rand == 2)
     {
       Vector3 position = new Vector3(m_MaxX, Random.Range(m_MinY, m_MaxY));
       Instantiate(Resources.Load("SmallStar"), position, Quaternion.identity);
+    }
+    if (rand2 == 3)
+    {
+      Vector3 position = new Vector3(m_MaxX, Random.Range(m_MinY, m_MaxY));
+      Instantiate(Resources.Load("BigStar"), position, Quaternion.identity);
     }
   }
 }
