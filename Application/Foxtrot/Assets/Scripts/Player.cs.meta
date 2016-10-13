@@ -1,10 +1,16 @@
 fileFormatVersion: 2
 guid: 739e3195566f4aa47bc158ceb7d0a8d4
-timeCreated: 1475470914
+timeCreated: 1476241767
 licenseType: Free
 MonoImporter:
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - m_FireAudio: {fileID: 82000013184038484, guid: c8a395f8b11f045479dac350c324754f,
+      type: 2}
+  - m_ExplosionAudio: {fileID: 82000010007718362, guid: e6d9b5b91b3c63f49ab77fc4c2dd42a7,
+      type: 2}
+  - m_HealthSlider: {fileID: 114000012987542964, guid: a4e6243e570f34741b5476470f7eff94,
+      type: 2}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
