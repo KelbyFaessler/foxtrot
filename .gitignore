@@ -35,3 +35,16 @@ Application/Foxtrot/Library/expandedItems
 *.dwlt
 Application/Foxtrot/Library/assetDatabase3
 Application/Foxtrot/Library/LastSceneManagerSetup.txt
+*.meta
+Application/Foxtrot/Library/assetDatabase3
+*.dwlt
+Application/Foxtrot/Library/expandedItems
+Application/Foxtrot/Library/LastSceneManagerSetup.txt
+*.dll
+Application/Foxtrot/Library/ScriptAssemblies/Assembly-CSharp.dll.mdb
+*.dwlt
+Application/Foxtrot/Library/CurrentLayout.dwlt
+Application/Foxtrot/Library/LastSceneManagerSetup.txt
+*.dll
+Application/Foxtrot/Library/ScriptAssemblies/Assembly-CSharp.dll.mdb
+*.mdb
