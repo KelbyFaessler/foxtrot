@@ -2,7 +2,7 @@
  * File:            Player.cs
  * Author:          David Hite
  * Date Created:    10/2/2016
- * Date Modified:   10/10/2016
+ * Date Modified:   10/14/2016
  * Description:
  * Contains the Player class, which controls the behavior of the 
  * Player object
@@ -98,14 +98,11 @@ public class Player : MonoBehaviour {
   /***********************************************************/
   private void GetCameraBounds()
   {
-    float camDistance = Vector3.Distance(transform.position, Camera.main.transform.position);
-    Vector2 bottomCorner = Camera.main.ViewportToWorldPoint(new Vector3(0, 0, camDistance));
-    Vector2 topCorner = Camera.main.ViewportToWorldPoint(new Vector3(1, 1, camDistance));
-
-    m_MinX = bottomCorner.x;
-    m_MaxX = topCorner.x;
-    m_MinY = bottomCorner.y;
-    m_MaxY = topCorner.y;
+    var bounds = Globals.GetCameraBounds(gameObject);
+    m_MinX = bounds.m_MinX;
+    m_MaxX = bounds.m_MaxX;
+    m_MinY = bounds.m_MinY;
+    m_MaxY = bounds.m_MaxY;
   }
 
   /***********************************************************

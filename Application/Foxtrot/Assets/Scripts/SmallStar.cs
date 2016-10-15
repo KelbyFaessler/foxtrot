@@ -20,9 +20,8 @@ public class SmallStar : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
     // Find the left-most edge of the screen. If a star is to the left of it, destroy it.
-    float camDistance = Vector3.Distance(transform.position, Camera.main.transform.position);
-    Vector2 bottomCorner = Camera.main.ViewportToWorldPoint(new Vector3(0, 0, camDistance));
-    float minX = bottomCorner.x;
+    var bounds = Globals.GetCameraBounds(gameObject);
+    float minX = bounds.m_MinX;
 
     var pos = transform.position;
     if (pos.x < minX)
