@@ -13,8 +13,7 @@ using System.Collections;
 
 public class Player : MonoBehaviour {
   // Member variables
-  private const float m_MoveSpeed = 0.1f;
-  private const float m_CameraSpeed = 0.05f;
+  private const float m_MoveSpeed = 0.15f;
   private float m_SpriteWidthFromCenter;
   private float m_SpriteHeightFromCenter;
 
@@ -57,10 +56,6 @@ public class Player : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-    // TODO: this should probably go in a different script,
-    // maybe one associated with the scene or camera
-    CreateRandomStars();
-
     // Get movement input from player
     transform.position = GetPlayerControls();
 
@@ -144,28 +139,5 @@ public class Player : MonoBehaviour {
     }
 
     return newPosition;
-  }
-
-  /***********************************************************
-  /** CreateRandomStars
-   Instantiates a SmallStar object just to the right of the
-   camera view at a random y position.
-  /***********************************************************/
-  private void CreateRandomStars()
-  {
-    // Do not generate a star at every update; reduce probability of generation
-    int rand = (int)Random.Range(0, 20);
-    int rand2 = (int)Random.Range(0, 70);
-
-    if (rand == 2)
-    {
-      Vector3 position = new Vector3(m_MaxX, Random.Range(m_MinY, m_MaxY));
-      Instantiate(Resources.Load("SmallStar"), position, Quaternion.identity);
-    }
-    if (rand2 == 3)
-    {
-      Vector3 position = new Vector3(m_MaxX, Random.Range(m_MinY, m_MaxY));
-      Instantiate(Resources.Load("BigStar"), position, Quaternion.identity);
-    }
   }
 }
