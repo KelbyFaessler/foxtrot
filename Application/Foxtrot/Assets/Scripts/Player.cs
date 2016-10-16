@@ -2,7 +2,7 @@
  * File:            Player.cs
  * Author:          David Hite
  * Date Created:    10/2/2016
- * Date Modified:   10/10/2016
+ * Date Modified:   10/15/2016
  * Description:
  * Contains the Player class, which controls the behavior of the 
  * Player object
@@ -12,16 +12,6 @@ using UnityEngine.UI;
 using System.Collections;
 
 public class Player : MonoBehaviour {
-  // Member variables
-  private const float m_MoveSpeed = 0.1f;
-  private const float m_CameraSpeed = 0.05f;
-  private float m_SpriteWidthFromCenter;
-  private float m_SpriteHeightFromCenter;
-
-  // Health values
-  private float m_MaxHealth;
-  public float m_CurrentHealth;
-
   // Boundaries for player, set by camera view
   private float m_MinX;
   private float m_MaxX;
@@ -32,25 +22,47 @@ public class Player : MonoBehaviour {
   public AudioSource    m_FireAudio;
   public AudioSource    m_ExplosionAudio;
 
+  // Health values
+  private float m_MaxHealth;
+  public float m_CurrentHealth;
+
   // Connection to health slider
   public Slider m_HealthSlider;
+
+  // Singleton instance
+  public static Player instance;
+
+  // The ship being used
+  public ShipBase m_Ship;
+
+  // Called before Start()
+  void Awake()
+  {
+    // Use this class as a Singleton instance
+    if (instance == null)
+    {
+      instance = this;
+    }
+    else if (instance != this)
+    {
+      Destroy(gameObject);
+    }
+
+    // Ensures that the object persists between scenes
+    DontDestroyOnLoad(gameObject);
+  }
 
 	// Use this for initialization
 	void Start ()
   {
-    // Get the size of the sprite (half), for checking boundaries
-    var sprite = GetComponent<SpriteRenderer>();
-    m_SpriteWidthFromCenter = (float)(sprite.bounds.size.x / 2);
-    m_SpriteHeightFromCenter = (float)(sprite.bounds.size.y / 2);
-
     // If we decide to have the camera move, then this should be in Update() instead
     GetCameraBounds();
-
+    m_Ship = gameObject.AddComponent<Constitution>() as ShipBase;
     var sounds = GetComponents<AudioSource>();
     m_ExplosionAudio = sounds[1];
     m_FireAudio = sounds[0];
     
-    m_HealthSlider = GetComponentInChildren<Slider>();//GetComponent<Slider>();
+    m_HealthSlider = GetComponentInChildren<Slider>();
     m_MaxHealth = 10f;
     m_CurrentHealth = m_HealthSlider.value;
   }
@@ -118,31 +130,31 @@ public class Player : MonoBehaviour {
     Vector3 newPosition = transform.position;
     if (Input.GetKey(KeyCode.LeftArrow))
     {
-      newPosition.x -= m_MoveSpeed;
+      newPosition.x -= m_Ship.m_MoveSpeed;
       // Check for camera boundaries
-      if (newPosition.x - m_SpriteWidthFromCenter < m_MinX)
-        newPosition.x = m_MinX + m_SpriteWidthFromCenter;
+      if (newPosition.x - m_Ship.m_SpriteWidthFromCenter < m_MinX)
+        newPosition.x = m_MinX + m_Ship.m_SpriteWidthFromCenter;
     }
     if (Input.GetKey(KeyCode.RightArrow))
     {
-      newPosition.x += m_MoveSpeed;
-      if (newPosition.x + m_SpriteWidthFromCenter > m_MaxX)
-        newPosition.x = m_MaxX - m_SpriteWidthFromCenter;
+      newPosition.x += m_Ship.m_MoveSpeed;
+      if (newPosition.x + m_Ship.m_SpriteWidthFromCenter > m_MaxX)
+        newPosition.x = m_MaxX - m_Ship.m_SpriteWidthFromCenter;
     }
     if (Input.GetKey(KeyCode.UpArrow))
     {
-      newPosition.y += m_MoveSpeed;
-      if (newPosition.y + m_SpriteHeightFromCenter > m_MaxY)
+      newPosition.y += m_Ship.m_MoveSpeed;
+      if (newPosition.y + m_Ship.m_SpriteHeightFromCenter > m_MaxY)
       {
-        newPosition.y = m_MaxY - m_SpriteHeightFromCenter;
+        newPosition.y = m_MaxY - m_Ship.m_SpriteHeightFromCenter;
       }
     }
     if (Input.GetKey(KeyCode.DownArrow))
     {
-      newPosition.y -= m_MoveSpeed;
-      if (newPosition.y - m_SpriteHeightFromCenter < m_MinY)
+      newPosition.y -= m_Ship.m_MoveSpeed;
+      if (newPosition.y - m_Ship.m_SpriteHeightFromCenter < m_MinY)
       {
-        newPosition.y = m_MinY + m_SpriteHeightFromCenter;
+        newPosition.y = m_MinY + m_Ship.m_SpriteHeightFromCenter;
       }
     }
 
@@ -163,12 +175,12 @@ public class Player : MonoBehaviour {
     if (rand == 2)
     {
       Vector3 position = new Vector3(m_MaxX, Random.Range(m_MinY, m_MaxY));
-      Instantiate(Resources.Load("SmallStar"), position, Quaternion.identity);
+      Instantiate(Resources.Load("Prefabs/SmallStar"), position, Quaternion.identity);
     }
     if (rand2 == 3)
     {
       Vector3 position = new Vector3(m_MaxX, Random.Range(m_MinY, m_MaxY));
-      Instantiate(Resources.Load("BigStar"), position, Quaternion.identity);
+      Instantiate(Resources.Load("Prefabs/BigStar"), position, Quaternion.identity);
     }
   }
 }
