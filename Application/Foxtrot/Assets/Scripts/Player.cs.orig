@@ -2,7 +2,11 @@
  * File:            Player.cs
  * Author:          David Hite
  * Date Created:    10/2/2016
+<<<<<<< HEAD
  * Date Modified:   10/15/2016
+=======
+ * Date Modified:   10/14/2016
+>>>>>>> refs/remotes/origin/master
  * Description:
  * Contains the Player class, which controls the behavior of the 
  * Player object
@@ -12,6 +16,18 @@ using UnityEngine.UI;
 using System.Collections;
 
 public class Player : MonoBehaviour {
+<<<<<<< HEAD
+=======
+  // Member variables
+  private const float m_MoveSpeed = 0.15f;
+  private float m_SpriteWidthFromCenter;
+  private float m_SpriteHeightFromCenter;
+
+  // Health values
+  private float m_MaxHealth;
+  public float m_CurrentHealth;
+
+>>>>>>> refs/remotes/origin/master
   // Boundaries for player, set by camera view
   private float m_MinX;
   private float m_MaxX;
@@ -153,4 +169,30 @@ public class Player : MonoBehaviour {
 
     return newPosition;
   }
+<<<<<<< HEAD
+
+  /***********************************************************
+  /** CreateRandomStars
+   Instantiates a SmallStar object just to the right of the
+   camera view at a random y position.
+  /***********************************************************/
+  private void CreateRandomStars()
+  {
+    // Do not generate a star at every update; reduce probability of generation
+    int rand = (int)Random.Range(0, 20);
+    int rand2 = (int)Random.Range(0, 70);
+
+    if (rand == 2)
+    {
+      Vector3 position = new Vector3(m_MaxX, Random.Range(m_MinY, m_MaxY));
+      Instantiate(Resources.Load("Prefabs/SmallStar"), position, Quaternion.identity);
+    }
+    if (rand2 == 3)
+    {
+      Vector3 position = new Vector3(m_MaxX, Random.Range(m_MinY, m_MaxY));
+      Instantiate(Resources.Load("Prefabs/BigStar"), position, Quaternion.identity);
+    }
+  }
+=======
+>>>>>>> refs/remotes/origin/master
 }
