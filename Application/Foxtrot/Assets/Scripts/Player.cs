@@ -153,6 +153,4 @@ public class Player : MonoBehaviour {
 
     return newPosition;
   }
-      Instantiate(Resources.Load("Prefabs/SmallStar"), position, Quaternion.identity);
-      Instantiate(Resources.Load("Prefabs/BigStar"), position, Quaternion.identity);
 }
