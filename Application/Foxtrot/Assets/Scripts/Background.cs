@@ -2,12 +2,6 @@
 using System.Collections;
 
 public class Background : MonoBehaviour {
-  // Boundaries for player, set by camera view
-  private float m_MinX;
-  private float m_MaxX;
-  private float m_MinY;
-  private float m_MaxY;
-
   // Keep track of whether a planet has been created
   private bool m_planetCreated = false;
 
@@ -37,14 +31,16 @@ public class Background : MonoBehaviour {
     int rand = Random.Range(0, 20);
     int rand2 = Random.Range(0, 70);
 
+    Boundaries bounds = Globals.GetCameraBounds(gameObject);
+
     if (rand == 2)
     {
-      Vector3 position = new Vector3(m_MaxX, Random.Range(m_MinY, m_MaxY));
+      Vector3 position = new Vector3(bounds.m_MaxX, Random.Range(bounds.m_MinY, bounds.m_MaxY));
       Instantiate(Resources.Load("SmallStar"), position, Quaternion.identity);
     }
     if (rand2 == 3)
     {
-      Vector3 position = new Vector3(m_MaxX, Random.Range(m_MinY, m_MaxY));
+      Vector3 position = new Vector3(bounds.m_MaxX, Random.Range(bounds.m_MinY, bounds.m_MaxY));
       Instantiate(Resources.Load("BigStar"), position, Quaternion.identity);
     }
   }
@@ -61,25 +57,8 @@ public class Background : MonoBehaviour {
     // Set planet spawn point
 
     // Create new planet
-    Vector3 position = new Vector3(m_MaxX, Random.Range(m_MinY, m_MaxY));
-    Instantiate(Resources.Load("Planet"), position, Quaternion.identity);
-    m_planetCreated = true;
-  }
-
-  /***********************************************************
-  /** GetCameraBounds
-   Gets the minimum and maximum x and y values for the camera
-   view.
-  /***********************************************************/
-  private void GetCameraBounds()
-  {
-    float camDistance = Vector3.Distance(transform.position, Camera.main.transform.position);
-    Vector2 bottomCorner = Camera.main.ViewportToWorldPoint(new Vector3(0, 0, camDistance));
-    Vector2 topCorner = Camera.main.ViewportToWorldPoint(new Vector3(1, 1, camDistance));
-
-    m_MinX = bottomCorner.x;
-    m_MaxX = topCorner.x;
-    m_MinY = bottomCorner.y;
-    m_MaxY = topCorner.y;
+    //Vector3 position = new Vector3(m_MaxX, Random.Range(m_MinY, m_MaxY));
+    //Instantiate(Resources.Load("Planet"), position, Quaternion.identity);
+    //m_planetCreated = true;
   }
 }
