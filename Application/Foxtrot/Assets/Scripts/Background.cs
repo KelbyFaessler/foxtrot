@@ -13,6 +13,7 @@ public class Background : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
     CreateRandomStars();
+    CreateRandomAsteroids();
     // KELBY
     //if (m_planetCreated == false) {
     //  CreatePlanet();
@@ -21,7 +22,6 @@ public class Background : MonoBehaviour {
   }
 
   /***********************************************************
-  /** CreateRandomStars
    Instantiates a SmallStar object just to the right of the
    camera view at a random y position.
   /***********************************************************/
@@ -36,12 +36,30 @@ public class Background : MonoBehaviour {
     if (rand == 2)
     {
       Vector3 position = new Vector3(bounds.m_MaxX, Random.Range(bounds.m_MinY, bounds.m_MaxY));
-      Instantiate(Resources.Load("SmallStar"), position, Quaternion.identity);
+      Instantiate(Resources.Load("Prefabs\\SmallStar"), position, Quaternion.identity);
     }
     if (rand2 == 3)
     {
       Vector3 position = new Vector3(bounds.m_MaxX, Random.Range(bounds.m_MinY, bounds.m_MaxY));
-      Instantiate(Resources.Load("BigStar"), position, Quaternion.identity);
+      Instantiate(Resources.Load("Prefabs\\BigStar"), position, Quaternion.identity);
+    }
+  }
+
+  /***********************************************************
+   Instantiates a Asteroid object just to the right of the
+   camera view at a random y position. 
+  /***********************************************************/
+  private void CreateRandomAsteroids()
+  {
+    // Do not generate a star at every update; reduce probability of generation
+    int rand = Random.Range(0, 2000);
+
+    Boundaries bounds = Globals.GetCameraBounds(gameObject);
+
+    if (rand == 2)
+    {
+      Vector3 position = new Vector3(bounds.m_MaxX, Random.Range(bounds.m_MinY, bounds.m_MaxY));
+      Instantiate(Resources.Load("Prefabs\\Asteroid"), position, Quaternion.identity);
     }
   }
 
