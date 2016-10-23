@@ -12,6 +12,15 @@ using UnityEngine.UI;
 using System.Collections;
 
 public class Player : MonoBehaviour {
+  // deceleration factor
+  const float DECEL_FACTOR = 0.6f;
+  public enum EShip
+  {
+    Constitution = 0,
+    Galaxy,
+    Enterprise
+  }
+
   // Boundaries for player, set by camera view
   private float m_MinX;
   private float m_MaxX;
@@ -28,6 +37,9 @@ public class Player : MonoBehaviour {
 
   // Connection to health slider
   public Slider m_HealthSlider;
+
+  public float m_HorizontalSpeed;
+  public float m_VerticalSpeed;
 
   // Singleton instance
   public static Player instance;
@@ -50,6 +62,8 @@ public class Player : MonoBehaviour {
 
     // Ensures that the object persists between scenes
     DontDestroyOnLoad(gameObject);
+
+    m_Ship = null;
   }
 
 	// Use this for initialization
@@ -57,7 +71,6 @@ public class Player : MonoBehaviour {
   {
     // If we decide to have the camera move, then this should be in Update() instead
     GetCameraBounds();
-    m_Ship = gameObject.AddComponent<Constitution>() as ShipBase;
     var sounds = GetComponents<AudioSource>();
     m_ExplosionAudio = sounds[1];
     m_FireAudio = sounds[0];
@@ -65,10 +78,16 @@ public class Player : MonoBehaviour {
     m_HealthSlider = GetComponentInChildren<Slider>();
     m_MaxHealth = 10f;
     m_CurrentHealth = m_HealthSlider.value;
+    m_HorizontalSpeed = 0f;
+    m_VerticalSpeed = 0f;
   }
 	
 	// Update is called once per frame
 	void Update () {
+    // this is true in the menu, when we hide the player object
+    if (m_Ship == null)
+      return;
+
     // Get movement input from player
     transform.position = GetPlayerControls();
 
@@ -99,12 +118,53 @@ public class Player : MonoBehaviour {
     m_HealthSlider.value = m_CurrentHealth;
 	}
 
+  public void SetShip(EShip eShipType)
+  {
+    if (m_Ship != null)
+      return;
+
+    switch (eShipType)
+    {
+      case EShip.Constitution:
+        {
+          m_Ship = gameObject.AddComponent<Constitution>() as ShipBase;
+          break;
+        }
+      case EShip.Galaxy:
+        {
+          m_Ship = gameObject.AddComponent<Galaxy>() as ShipBase;
+          break;
+        }
+      case EShip.Enterprise:
+        {
+          m_Ship = gameObject.AddComponent<Enterprise>() as ShipBase;
+          break;
+        }
+      default:
+        {
+          m_Ship = gameObject.AddComponent<Enterprise>() as ShipBase;
+          break;
+        }
+    }
+  }
+
+  public void SetVisible(bool isVisible)
+  {
+    GetCameraBounds();
+    var newPosition = transform.position;
+    if (isVisible)
+      newPosition.x = m_MinX + m_Ship.m_SpriteWidthFromCenter;
+    else
+      newPosition.x = m_MinX - 40;
+    transform.position = newPosition;
+  }
+
   /***********************************************************
   /** GetCameraBounds
    Gets the minimum and maximum x and y values for the camera
    view.
   /***********************************************************/
-  private void GetCameraBounds()
+  public void GetCameraBounds()
   {
     var bounds = Globals.GetCameraBounds(gameObject);
     m_MinX = bounds.m_MinX;
@@ -121,34 +181,79 @@ public class Player : MonoBehaviour {
   Vector3 GetPlayerControls()
   {
     Vector3 newPosition = transform.position;
+    bool horizontalAcceleration = false;
+    bool verticalAcceleration = false;
     if (Input.GetKey(KeyCode.LeftArrow))
     {
-      newPosition.x -= m_Ship.m_MoveSpeed;
-      // Check for camera boundaries
-      if (newPosition.x - m_Ship.m_SpriteWidthFromCenter < m_MinX)
-        newPosition.x = m_MinX + m_Ship.m_SpriteWidthFromCenter;
+      horizontalAcceleration = true;
+      m_HorizontalSpeed -= m_Ship.m_Acceleration;
+      if (m_HorizontalSpeed < -(m_Ship.m_MoveSpeed))
+        m_HorizontalSpeed = -(m_Ship.m_MoveSpeed);
     }
     if (Input.GetKey(KeyCode.RightArrow))
     {
-      newPosition.x += m_Ship.m_MoveSpeed;
-      if (newPosition.x + m_Ship.m_SpriteWidthFromCenter > m_MaxX)
-        newPosition.x = m_MaxX - m_Ship.m_SpriteWidthFromCenter;
+      horizontalAcceleration = true;
+      m_HorizontalSpeed += m_Ship.m_Acceleration;
+      if (m_HorizontalSpeed > m_Ship.m_MoveSpeed)
+        m_HorizontalSpeed = m_Ship.m_MoveSpeed;
     }
     if (Input.GetKey(KeyCode.UpArrow))
     {
-      newPosition.y += m_Ship.m_MoveSpeed;
-      if (newPosition.y + m_Ship.m_SpriteHeightFromCenter > m_MaxY)
-      {
-        newPosition.y = m_MaxY - m_Ship.m_SpriteHeightFromCenter;
-      }
+      verticalAcceleration = true;
+      m_VerticalSpeed += m_Ship.m_Acceleration;
+      if (m_VerticalSpeed > m_Ship.m_MoveSpeed)
+        m_VerticalSpeed = m_Ship.m_MoveSpeed;
     }
     if (Input.GetKey(KeyCode.DownArrow))
     {
-      newPosition.y -= m_Ship.m_MoveSpeed;
-      if (newPosition.y - m_Ship.m_SpriteHeightFromCenter < m_MinY)
-      {
-        newPosition.y = m_MinY + m_Ship.m_SpriteHeightFromCenter;
-      }
+      verticalAcceleration = true;
+      m_VerticalSpeed -= m_Ship.m_Acceleration;
+      if (m_VerticalSpeed < -(m_Ship.m_MoveSpeed))
+        m_VerticalSpeed = -(m_Ship.m_MoveSpeed);
+    }
+
+    if (!horizontalAcceleration)
+    {
+      if (m_HorizontalSpeed < 0)
+        m_HorizontalSpeed += (m_Ship.m_Acceleration * DECEL_FACTOR);
+      else if (m_HorizontalSpeed > 0)
+        m_HorizontalSpeed -= (m_Ship.m_Acceleration * DECEL_FACTOR);
+      if (Mathf.Abs(m_HorizontalSpeed) < 0.05)
+        m_HorizontalSpeed = 0f;
+    }
+    if (!verticalAcceleration)
+    {
+      if (m_VerticalSpeed < 0)
+        m_VerticalSpeed += (m_Ship.m_Acceleration * DECEL_FACTOR);
+      else if (m_VerticalSpeed > 0)
+        m_VerticalSpeed -= (m_Ship.m_Acceleration * DECEL_FACTOR);
+      if (Mathf.Abs(m_VerticalSpeed) < 0.05f)
+        m_VerticalSpeed = 0f;
+    }
+
+    newPosition.x += m_HorizontalSpeed;
+    newPosition.y += m_VerticalSpeed;
+
+    // Check for camera boundaries
+    if (newPosition.x - m_Ship.m_SpriteWidthFromCenter < m_MinX)
+    {
+      newPosition.x = m_MinX + m_Ship.m_SpriteWidthFromCenter;
+      m_HorizontalSpeed = 0f;
+    }
+    if (newPosition.x + m_Ship.m_SpriteWidthFromCenter > m_MaxX)
+    {
+      newPosition.x = m_MaxX - m_Ship.m_SpriteWidthFromCenter;
+      m_HorizontalSpeed = 0f;
+    }
+    if (newPosition.y + m_Ship.m_SpriteHeightFromCenter > m_MaxY)
+    {
+      newPosition.y = m_MaxY - m_Ship.m_SpriteHeightFromCenter;
+      m_VerticalSpeed = 0f;
+    }
+    if (newPosition.y - m_Ship.m_SpriteHeightFromCenter < m_MinY)
+    {
+      newPosition.y = m_MinY + m_Ship.m_SpriteHeightFromCenter;
+      m_VerticalSpeed = 0f;
     }
 
     return newPosition;
