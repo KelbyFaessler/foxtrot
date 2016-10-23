@@ -16,12 +16,12 @@ public class EnemyBase : MonoBehaviour {
     public float m_SpriteHeightFromCenter;
 
     // Each ship can have a different starting max health and move speed
-    public float m_BaseMaxhealth;
+    public float m_BaseMaxHealth;
     public float m_MoveSpeed = 0.08f;
 
     // Each ship can have a name and rendering model
     public string m_Name;
-    public SpriteRenderer m_SpriteRender;
+    public SpriteRenderer m_SpriteRenderer;
 
     // Each enemy ship can have its own points for scoreboard
     public float m_points;

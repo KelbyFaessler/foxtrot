@@ -2,7 +2,7 @@
  * File:            ShipBase.cs
  * Author:          David Hite
  * Date Created:    10/15/2016
- * Date Modified:   10/15/2016
+ * Date Modified:   10/19/2016
  * Description:
  * Contains the ShipBase class, which is to be used as an abstract
  * class. Children of this class will represent different types of
@@ -19,6 +19,7 @@ public class ShipBase : MonoBehaviour {
   // Each ship can have a different starting max health and move speed
   public float m_BaseMaxHealth;
   public float m_MoveSpeed = 0.08f;
+  public float m_Acceleration;
 
   public string m_Name;
   public SpriteRenderer m_SpriteRenderer;

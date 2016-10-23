@@ -2,7 +2,7 @@
  * File:            Constitution.cs
  * Author:          David Hite
  * Date Created:    10/15/2016
- * Date Modified:   10/15/2016
+ * Date Modified:   10/19/2016
  * Description:
  * Contains the Constitution class. This class represents the 
  * Constitution starship.
@@ -17,6 +17,7 @@ public class Constitution : ShipBase {
     m_BaseMaxHealth = 15f;
     m_MoveSpeed     = 0.1f;
     m_Name          = "Constitution";
+    m_Acceleration  = 0.005f;
     
     if (m_SpriteRenderer == null)
     {

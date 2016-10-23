@@ -11,5 +11,6 @@ public class Loader : MonoBehaviour {
     {
       Instantiate(m_Player);
     }
+    Player.instance.GetCameraBounds();
 	}
 }
