@@ -1,9 +1,18 @@
+<<<<<<< HEAD
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 using System.Collections;
 
 public class ShipSelectMenu : MonoBehaviour {
   void Start()
+=======
+﻿using UnityEngine;
+using UnityEngine.SceneManagement;
+using System.Collections;
+
+public class ShipSelectMenu : MonoBehaviour {
+  void Awake()
+>>>>>>> refs/remotes/origin/master
   {
     Player.instance.SetVisible(false);
   }
