@@ -94,6 +94,7 @@ public class Player : MonoBehaviour {
     if (Input.GetKeyDown(KeyCode.Space))
     {
       m_FireAudio.Play();
+      Instantiate(Resources.Load("Prefabs\\BlueLaser"), transform.position, Quaternion.identity);
     }
     if (Input.GetKeyDown(KeyCode.F))
     {
