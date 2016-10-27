@@ -3,14 +3,19 @@ using UnityEngine.SceneManagement;
 using System.Collections;
 
 public class ShipSelectMenu : MonoBehaviour {
-  void Awake()
+  void Start()
   {
     Player.instance.SetVisible(false);
   }
   public void LoadScene(int ship)
   {
     Player.instance.SetShip((Player.EShip)ship);
-    SceneManager.LoadScene(1);
+    var result = SceneManager.LoadSceneAsync(1);
+    result.allowSceneActivation = true;
+    while (result.progress < 0.9f)
+    {
+      // Play loading animation
+    }
     Player.instance.SetVisible(true);
   }
 	// Use this for initialization

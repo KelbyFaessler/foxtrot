@@ -34,6 +34,7 @@ public class Player : MonoBehaviour {
   // Health values
   private float m_MaxHealth;
   public float m_CurrentHealth;
+  public bool m_Visible;
 
   // Connection to health slider
   public Slider m_HealthSlider;
@@ -63,7 +64,7 @@ public class Player : MonoBehaviour {
     // Ensures that the object persists between scenes
     DontDestroyOnLoad(gameObject);
 
-    m_Ship = null;
+    m_Ship = gameObject.AddComponent<Constitution>() as ShipBase;
   }
 
 	// Use this for initialization
@@ -80,12 +81,13 @@ public class Player : MonoBehaviour {
     m_CurrentHealth = m_HealthSlider.value;
     m_HorizontalSpeed = 0f;
     m_VerticalSpeed = 0f;
+    m_Visible = true;
   }
 	
 	// Update is called once per frame
 	void Update () {
     // this is true in the menu, when we hide the player object
-    if (m_Ship == null)
+    if (m_Ship == null || m_Visible == false)
       return;
 
     // Get movement input from player
@@ -119,11 +121,14 @@ public class Player : MonoBehaviour {
     m_HealthSlider.value = m_CurrentHealth;
 	}
 
+  /***********************************************************
+  /** SetShip
+   Sets m_Ship to the selected ship type
+
+   @param in : eShipType  The type of ship selected
+  /***********************************************************/
   public void SetShip(EShip eShipType)
   {
-    if (m_Ship != null)
-      return;
-
     switch (eShipType)
     {
       case EShip.Constitution:
@@ -149,6 +154,13 @@ public class Player : MonoBehaviour {
     }
   }
 
+  /***********************************************************
+  /** SetVisible
+   Moves the player object off the screen if isVisible is false,
+   otherwise moves it to the left edge of the screen
+
+   @param in : isVisible  Hides player when false
+  /***********************************************************/
   public void SetVisible(bool isVisible)
   {
     GetCameraBounds();
@@ -156,8 +168,9 @@ public class Player : MonoBehaviour {
     if (isVisible)
       newPosition.x = m_MinX + m_Ship.m_SpriteWidthFromCenter;
     else
-      newPosition.x = m_MinX - 40;
+      newPosition.x = m_MinX - 500;
     transform.position = newPosition;
+    m_Visible = isVisible;
   }
 
   /***********************************************************
