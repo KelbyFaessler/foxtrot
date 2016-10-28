@@ -8,12 +8,15 @@
 
 ***************************************************************************************************************/
 using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 public class EnemyBase : MonoBehaviour {
     // Member variables
     public float m_SpriteWidthFromCenter;
     public float m_SpriteHeightFromCenter;
+
+    public Slider m_HealthSlider;
 
     // Each ship can have a different starting max health and move speed
     public float m_BaseMaxHealth;
@@ -31,6 +34,7 @@ public class EnemyBase : MonoBehaviour {
         var sprite = GetComponent<SpriteRenderer>();
         m_SpriteWidthFromCenter = (float)(sprite.bounds.size.x / 2);
         m_SpriteHeightFromCenter = (float)(sprite.bounds.size.y / 2);
+    m_HealthSlider = GetComponentInChildren<Slider>();
 	}
 	
 	// Update is called once per frame
