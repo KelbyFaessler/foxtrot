@@ -64,7 +64,7 @@ public class Player : MonoBehaviour {
     // Ensures that the object persists between scenes
     DontDestroyOnLoad(gameObject);
 
-    m_Ship = gameObject.AddComponent<Constitution>() as ShipBase;
+    m_Ship = gameObject.AddComponent<Galaxy>() as ShipBase;
   }
 
 	// Use this for initialization
