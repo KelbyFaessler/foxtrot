@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class BigStar : MonoBehaviour {
-  private const float m_StarSpeed = 0.03f;
+  private const float m_StarSpeed = 0.003f;
 
   // Use this for initialization
   void Start () {
