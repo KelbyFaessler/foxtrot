@@ -3,7 +3,7 @@ using System.Collections;
 
 public class Background : MonoBehaviour {
   // Keep track of whether a planet has been created
-  private bool m_planetCreated = false;
+  //private bool m_planetCreated = false;
 
   // Use this for initialization
   void Start () {
@@ -28,8 +28,8 @@ public class Background : MonoBehaviour {
   private void CreateRandomStars()
   {
     // Do not generate a star at every update; reduce probability of generation
-    int rand = Random.Range(0, 20);
-    int rand2 = Random.Range(0, 70);
+    int rand = Random.Range(0, 400);
+    int rand2 = Random.Range(0, 700);
 
     Boundaries bounds = Globals.GetCameraBounds(gameObject);
 
@@ -51,8 +51,9 @@ public class Background : MonoBehaviour {
   /***********************************************************/
   private void CreateRandomAsteroids()
   {
-    // Do not generate a star at every update; reduce probability of generation
-    int rand = Random.Range(0, 2000);
+    // Do not generate an asteroid at every update; reduce probability of generation
+    //int rand = Random.Range(0, 2000);
+    int rand = Random.Range(0, 200);
 
     Boundaries bounds = Globals.GetCameraBounds(gameObject);
 

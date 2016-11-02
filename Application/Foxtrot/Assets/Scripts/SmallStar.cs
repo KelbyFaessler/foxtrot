@@ -11,7 +11,7 @@ using UnityEngine;
 using System.Collections;
 
 public class SmallStar : MonoBehaviour {
-  private const float m_StarSpeed = 0.05f;
+  private const float m_StarSpeed = 0.001f;
 
 	// Use this for initialization
 	void Start () {
