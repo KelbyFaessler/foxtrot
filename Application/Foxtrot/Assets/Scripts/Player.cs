@@ -90,6 +90,11 @@ public class Player : MonoBehaviour {
     if (m_Ship == null || m_Visible == false)
       return;
 
+    if (Input.GetKey("escape"))
+    {
+      Application.Quit();
+    }
+
     // Get movement input from player
     transform.position = GetPlayerControls();
 
