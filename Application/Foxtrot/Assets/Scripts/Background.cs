@@ -53,7 +53,7 @@ public class Background : MonoBehaviour {
   {
     // Do not generate an asteroid at every update; reduce probability of generation
     //int rand = Random.Range(0, 2000);
-    int rand = Random.Range(0, 200);
+    int rand = Random.Range(0, 2000);
 
     Boundaries bounds = Globals.GetCameraBounds(gameObject);
 
