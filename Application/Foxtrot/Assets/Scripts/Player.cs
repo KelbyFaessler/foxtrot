@@ -103,11 +103,7 @@ public class Player : MonoBehaviour {
       m_FireAudio.Play();
       Vector3 laserPosition = transform.position;
       laserPosition.x = laserPosition.x + m_Ship.m_SpriteWidthFromCenter;
-      Instantiate(Resources.Load("Prefabs\\BlueLaser"), laserPosition, Quaternion.identity);
-    }
-    if (Input.GetKeyDown(KeyCode.F))
-    {
-      m_ExplosionAudio.Play();
+      Instantiate(Resources.Load("Prefabs\\Weapons\\BlueLaser"), laserPosition, Quaternion.identity);
     }
 
     if (Input.GetKeyDown(KeyCode.V))
@@ -278,5 +274,22 @@ public class Player : MonoBehaviour {
     }
 
     return newPosition;
+  }
+
+  void OnTriggerEnter2D(Collider2D other)
+  {
+    if (other.gameObject.name == "Asteroid(Clone)")
+      DamagePlayer(1f);
+    DamagePlayer(0.5f);
+  }
+
+  public void DamagePlayer(float damage)
+  {
+    if (m_CurrentHealth > 0)
+      m_CurrentHealth -= damage;
+    else
+      m_CurrentHealth = 0;
+
+    m_ExplosionAudio.Play();
   }
 }
