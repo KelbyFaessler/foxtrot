@@ -280,6 +280,7 @@ public class Player : MonoBehaviour {
   {
     if (other.gameObject.name == "Asteroid(Clone)")
       DamagePlayer(1f);
+
     DamagePlayer(0.5f);
   }
 
@@ -291,5 +292,17 @@ public class Player : MonoBehaviour {
       m_CurrentHealth = 0;
 
     m_ExplosionAudio.Play();
+  }
+
+  public void ApplyHealth(float health)
+  {
+    if (m_CurrentHealth + health <= m_MaxHealth)
+    {
+      m_CurrentHealth += health;
+    }
+    else
+    {
+      m_CurrentHealth = m_MaxHealth;
+    }
   }
 }
