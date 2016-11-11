@@ -1,4 +1,13 @@
-﻿using UnityEngine;
+﻿/******************************************************************
+ * File:            HealthDrop.cs
+ * Author:          David Hite
+ * Date Created:    11/10/2016
+ * Date Modified:   11/10/2016
+ * Description:
+ * Contains the HealthDrop class, which defines the behavior of 
+ * HealthDrop objects.
+ ******************************************************************/
+using UnityEngine;
 using System.Collections;
 
 public class HealthDrop : MonoBehaviour {
@@ -17,6 +26,7 @@ public class HealthDrop : MonoBehaviour {
     MoveAndRotate();
   }
 
+  // The item moves left at a constant speed and rotates
   void MoveAndRotate()
   {
     transform.Rotate(new Vector3(0, 2f, 0));
@@ -30,6 +40,7 @@ public class HealthDrop : MonoBehaviour {
     transform.position = pos;
   }
 
+  // Apply health to player then self-destruct
   void OnTriggerEnter2D(Collider2D other)
   {
     if (other.gameObject.tag == "Player")
