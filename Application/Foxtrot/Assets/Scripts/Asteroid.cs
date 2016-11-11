@@ -24,6 +24,8 @@ public class Asteroid : MonoBehaviour {
 
     // Otherwise, move the star to the left by m_StarSpeed
     pos.x -= m_Speed;
+    
+    transform.Rotate(new Vector3(0, 0, 0.4f));
     transform.position = pos;
   }
 }
