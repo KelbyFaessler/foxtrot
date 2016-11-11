@@ -2,7 +2,7 @@
  * File:            Player.cs
  * Author:          David Hite
  * Date Created:    10/2/2016
- * Date Modified:   10/15/2016
+ * Date Modified:   11/10/2016
  * Description:
  * Contains the Player class, which controls the behavior of the 
  * Player object
@@ -276,14 +276,16 @@ public class Player : MonoBehaviour {
     return newPosition;
   }
 
+  // Check for collisions
   void OnTriggerEnter2D(Collider2D other)
   {
     if (other.gameObject.name == "Asteroid(Clone)")
       DamagePlayer(1f);
-
-    DamagePlayer(0.5f);
+    else
+      DamagePlayer(0.5f);
   }
 
+  // Apply damage to player
   public void DamagePlayer(float damage)
   {
     if (m_CurrentHealth > 0)
@@ -294,6 +296,7 @@ public class Player : MonoBehaviour {
     m_ExplosionAudio.Play();
   }
 
+  // Add to player health
   public void ApplyHealth(float health)
   {
     if (m_CurrentHealth + health <= m_MaxHealth)
