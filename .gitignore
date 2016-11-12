@@ -4,6 +4,7 @@
 *.info
 Application/Foxtrot/Library
 Application/Foxtrot/ProjectSettings
+!Application/Foxtrot/ProjectSettings/TagManager.asset
 Application/Foxtrot/Temp
 *.sln
 Application/Foxtrot/foxtrot_Data
