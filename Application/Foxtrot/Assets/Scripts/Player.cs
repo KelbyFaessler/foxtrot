@@ -283,6 +283,7 @@ public class Player : MonoBehaviour {
       DamagePlayer(1f);
     else
       DamagePlayer(0.5f);
+    Destroy(other.gameObject);
   }
 
   // Apply damage to player

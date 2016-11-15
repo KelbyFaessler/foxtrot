@@ -69,8 +69,6 @@ public class LaserEnemy : MonoBehaviour
   {
     if (col.gameObject.tag == "Player")
     {
-      // Destroy object collided with
-      Destroy(col.gameObject);
       // Destroy ourself (laser)
       Destroy(gameObject);
     }
@@ -80,8 +78,6 @@ public class LaserEnemy : MonoBehaviour
   {
     if (other.gameObject.tag == "Player")
     {
-      // Destroy object collided with
-      Destroy(other.gameObject);
       // Destroy ourself (laser)
       Destroy(gameObject);
     }
