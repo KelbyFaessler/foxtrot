@@ -103,7 +103,7 @@ public class Player : MonoBehaviour {
       m_FireAudio.Play();
       Vector3 laserPosition = transform.position;
       laserPosition.x = laserPosition.x + m_Ship.m_SpriteWidthFromCenter;
-      Instantiate(Resources.Load("Prefabs\\Weapons\\BlueLaser"), laserPosition, Quaternion.identity);
+      Instantiate(Resources.Load("Prefabs\\Weapons\\LaserPlayer"), laserPosition, Quaternion.identity);
     }
 
     if (Input.GetKeyDown(KeyCode.V))
