@@ -1,13 +1,15 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Laser : MonoBehaviour {
-  private const float m_Speed = 0.50f;
+public class LaserPlayer : MonoBehaviour {
+  private float m_speed;
+  private bool m_travelRight;
 
   // Use this for initialization
   void Start()
   {
-
+    m_speed = 0.50f;
+    m_travelRight = true;
   }
 
   // Update is called once per frame
@@ -26,8 +28,40 @@ public class Laser : MonoBehaviour {
     }
 
     // Otherwise, move the laser to the right by m_Speed
-    pos.x += m_Speed;
+    if (m_travelRight)
+    {
+      pos.x += m_speed;
+    }
+    else
+    {
+      pos.x -= m_speed;
+    }
     transform.position = pos;
+  }
+
+  /***********************************************************
+  /** SetDirection
+   Determines the direction the laser will travel (right or
+   left)
+
+   @param in : right The laser travels to the right (positive
+   x direction)
+  /***********************************************************/
+  public void SetDirection(bool right)
+  {
+    m_travelRight = right;
+  }
+
+  /***********************************************************
+  /** SetSpeed
+   Determines the speed of the laser
+
+   @param in : right The laser travels to the right (positive
+   x direction)
+  /***********************************************************/
+  public void SetSpeed(float speed)
+  {
+    m_speed = speed;
   }
 
   void OnCollisionEnter2D(Collision2D col)

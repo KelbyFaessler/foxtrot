@@ -4,36 +4,36 @@
 * Date Created:				10/16/2016
 * Date Modified:			
 * Description:
-* Contains the EnemyBase class, which is to be used as an abstract class.  Children of this class will represent different types of enemy ships for the Borg, Romulan, and Klingon ships and also the bosses from each race.
-
+* Contains the EnemyBase class, which is to be used as an abstract class.  Children of this class will represent 
+* different types of enemy ships for the Borg, Romulan, and Klingon ships and also the bosses from each race.
 ***************************************************************************************************************/
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
 
 public class EnemyBase : MonoBehaviour {
-    // Member variables
-    public float m_SpriteWidthFromCenter;
-    public float m_SpriteHeightFromCenter;
+  // Member variables
+  public float m_SpriteWidthFromCenter;
+  public float m_SpriteHeightFromCenter;
 
-    public Slider m_HealthSlider;
+  public Slider m_HealthSlider;
 
-    // Each ship can have a different starting max health and move speed
-    public float m_BaseMaxHealth;
-    public float m_MoveSpeed = 0.08f;
+  // Each ship can have a different starting max health and move speed
+  public float m_BaseMaxHealth;
+  public float m_MoveSpeed = 0.08f;
 
-    // Each ship can have a name and rendering model
-    public string m_Name;
-    public SpriteRenderer m_SpriteRenderer;
+  // Each ship can have a name and rendering model
+  public string m_Name;
+  public SpriteRenderer m_SpriteRenderer;
 
-    // Each enemy ship can have its own points for scoreboard
-    public float m_points;
+  // Each enemy ship can have its own points for scoreboard
+  public float m_points;
 
 	// Use this for initialization
 	void Start () {
-        var sprite = GetComponent<SpriteRenderer>();
-        m_SpriteWidthFromCenter = (float)(sprite.bounds.size.x / 2);
-        m_SpriteHeightFromCenter = (float)(sprite.bounds.size.y / 2);
+    var sprite = GetComponent<SpriteRenderer>();
+    m_SpriteWidthFromCenter = (float)(sprite.bounds.size.x / 2);
+    m_SpriteHeightFromCenter = (float)(sprite.bounds.size.y / 2);
     m_HealthSlider = GetComponentInChildren<Slider>();
 	}
 	
