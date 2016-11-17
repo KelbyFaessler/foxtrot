@@ -3,9 +3,15 @@ using System.Collections;
 
 public class Asteroid : MonoBehaviour {
   private const float m_Speed = 0.01f;
+  private bool m_IsDestroyed;
+  private int m_DestructionFrames;
+  private int m_Durability;
+
   // Use this for initialization
   void Start () {
-	
+    m_IsDestroyed = false;
+    m_DestructionFrames = 0;
+    m_Durability = Random.Range(3, 7);
 	}
 	
 	// Update is called once per frame
@@ -27,5 +33,27 @@ public class Asteroid : MonoBehaviour {
     
     transform.Rotate(new Vector3(0, 0, 0.4f));
     transform.position = pos;
+
+    if (m_IsDestroyed)
+    {
+      transform.Rotate(new Vector3(0, 5, 0));
+      m_DestructionFrames++;
+      if (m_DestructionFrames == 64)
+        Destroy(gameObject);
+    }
+  }
+
+  public void ApplyDamage(int damage)
+  {
+    m_Durability -= damage;
+    if (m_Durability < 1)
+    {
+      DestroyAsteroid();
+    }
+  }
+
+  private void DestroyAsteroid()
+  {
+    m_IsDestroyed = true;
   }
 }

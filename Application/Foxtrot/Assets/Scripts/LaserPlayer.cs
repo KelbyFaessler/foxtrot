@@ -4,6 +4,7 @@ using System.Collections;
 public class LaserPlayer : MonoBehaviour {
   private float m_speed;
   private bool m_travelRight;
+  private int m_AttackPoints = 1;
 
   // Use this for initialization
   void Start()
@@ -82,6 +83,12 @@ public class LaserPlayer : MonoBehaviour {
       // Destroy object collided with
       Destroy(other.gameObject);
       // Destroy ourself (laser)
+      Destroy(gameObject);
+    }
+    if (other.gameObject.tag == "Asteroid")
+    {
+      Asteroid asteroid = other.gameObject.GetComponent<Asteroid>();
+      asteroid.ApplyDamage(m_AttackPoints);
       Destroy(gameObject);
     }
   }

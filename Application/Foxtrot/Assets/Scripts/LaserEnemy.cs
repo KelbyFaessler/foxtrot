@@ -5,24 +5,21 @@ public class LaserEnemy : MonoBehaviour
 {
   private float m_speed;
   private bool m_travelRight;
+  private float m_LeftEdge;
 
   // Use this for initialization
   void Start()
   {
     m_speed = 0.25f;
     m_travelRight = false;
+    m_LeftEdge = Globals.GetCameraBounds(gameObject).m_MinX;
   }
 
   // Update is called once per frame
   void Update()
   {
-    // Find the right-most edge of the screen. If laser is to right of it, destroy it.
-    float camDistance = Vector3.Distance(transform.position, Camera.main.transform.position);
-    Vector2 bottomCorner = Camera.main.ViewportToWorldPoint(new Vector3(1, 1, camDistance));
-    float maxX = bottomCorner.x;
-
     var pos = transform.position;
-    if (pos.x > maxX)
+    if (pos.x < m_LeftEdge)
     {
       Destroy(gameObject);
       return;
