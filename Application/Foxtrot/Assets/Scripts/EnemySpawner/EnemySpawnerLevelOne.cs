@@ -9,20 +9,30 @@ public class EnemySpawnerLevelOne : MonoBehaviour
 	float howManyNorexan;
 	float maxVelesSpawnRateInSeconds = 5f;
 	float maxNorexanSpawnRateInSeconds = 10f;
-	float StopVelesInvoke = 0;
+	//float StopVelesInvoke = 0;
 
 	float maxVelesSpawns = 35f;
 	float maxNorexanSpawns = 25f;
 	float maxDderidexSpawns = 1f;
 
+	float StartTime = Time.time;
+	float Timer = 0.0f;
+
 	// Use this for initialization
 	void Start () 
 	{
+
+		if (Timer < StartTime + .012f) {
 			Invoke ("SpawnEnemyVeles", maxVelesSpawnRateInSeconds);
 			InvokeRepeating ("IncreaseVelesSpawnRate", 0f, 30f);
 
 			Invoke ("SpawnEnemyNorexan", maxNorexanSpawnRateInSeconds);
 			InvokeRepeating ("IncreaseNorexanSpawnRate", 0f, 30f);
+		}
+		else
+		{
+			Invoke ("SpawnEnemyDderidex", 1f); 
+		}
 	}
 	
 	// Update is called once per frame
@@ -103,5 +113,16 @@ public class EnemySpawnerLevelOne : MonoBehaviour
 
 		if (maxNorexanSpawnRateInSeconds == 1f)
 			CancelInvoke("IncreaseNorexanSpawnRate");
+	}
+
+	void SpawnEnemyDderidex()
+	{
+		var bounds = Globals.GetCameraBounds (gameObject);
+		float maxY = bounds.m_MaxY;
+		float minY = bounds.m_MinY;
+		float maxX = bounds.m_MaxX;
+
+		GameObject anDderidex = (GameObject)Instantiate (LevelOneEnemies [2]);
+		anDderidex.transform.position = new Vector2 (maxX, maxY/2.0f);
 	}
 }
