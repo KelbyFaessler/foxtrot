@@ -48,6 +48,9 @@ public class Player : MonoBehaviour {
   // The ship being used
   public ShipBase m_Ship;
 
+  // Weapon references
+  private BombPlayer activeBomb = null;
+
   // Called before Start()
   void Awake()
   {
@@ -104,6 +107,19 @@ public class Player : MonoBehaviour {
       Vector3 laserPosition = transform.position;
       laserPosition.x = laserPosition.x + m_Ship.m_SpriteWidthFromCenter;
       Instantiate(Resources.Load("Prefabs\\Weapons\\LaserPlayer"), laserPosition, Quaternion.identity);
+    }
+
+    bool noCurrentBomb = (GameObject.Find("bomb") == null);
+    if (Input.GetKeyDown(KeyCode.B) && noCurrentBomb)
+    {
+      // Need bomb audio here
+      Vector3 bombPosition = transform.position;
+      bombPosition.x = bombPosition.x + m_Ship.m_SpriteWidthFromCenter * 1.2f;
+      GameObject bombGameObject = (GameObject)Instantiate(Resources.Load("Prefabs\\Weapons\\BombPlayer"), bombPosition, Quaternion.identity);
+      bombGameObject.name = "bomb";
+      //bombGameObject.GetComponent(UnityScript);
+      //activeBomb = (BombPlayer)bombGameObject;
+      //activeBomb.SetPlayer();
     }
 
     if (Input.GetKeyDown(KeyCode.V))
@@ -279,10 +295,13 @@ public class Player : MonoBehaviour {
   // Check for collisions
   void OnTriggerEnter2D(Collider2D other)
   {
-    if (other.gameObject.name == "Asteroid(Clone)")
+    if (other.gameObject.name == "Asteroid(Clone)") {
       DamagePlayer(1f);
+    }
     else
+    {
       DamagePlayer(0.5f);
+    }
     Destroy(other.gameObject);
   }
 
