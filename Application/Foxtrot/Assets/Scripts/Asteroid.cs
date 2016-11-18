@@ -36,7 +36,7 @@ public class Asteroid : MonoBehaviour {
 
     if (m_IsDestroyed)
     {
-      transform.Rotate(new Vector3(0, 5, 0));
+      transform.Rotate(new Vector3(9, 0, 0));
       m_DestructionFrames++;
       if (m_DestructionFrames == 64)
         Destroy(gameObject);

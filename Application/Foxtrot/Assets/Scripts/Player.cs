@@ -279,9 +279,9 @@ public class Player : MonoBehaviour {
   // Check for collisions
   void OnTriggerEnter2D(Collider2D other)
   {
-    if (other.gameObject.name == "Asteroid(Clone)")
+    if (other.gameObject.tag == "Asteroid")
       DamagePlayer(1f);
-    else
+    else if (other.gameObject.tag != "Health")
       DamagePlayer(0.5f);
     Destroy(other.gameObject);
   }
