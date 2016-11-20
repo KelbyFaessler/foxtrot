@@ -81,7 +81,8 @@ public class LaserPlayer : MonoBehaviour {
     if (other.gameObject.tag == "DestructibleObject")
     {
       // Destroy object collided with
-      Destroy(other.gameObject);
+      EnemyBase enemy = other.gameObject.GetComponent<EnemyBase>();
+      enemy.ApplyDamage(m_AttackPoints);
       // Destroy ourself (laser)
       Destroy(gameObject);
     }
