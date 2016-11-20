@@ -6,6 +6,7 @@ public class BombPlayer : MonoBehaviour {
   private float m_blastRadius;
   private float m_minWaitTime;
   private float m_aliveTime;
+  private int m_power;
   //private GameObject m_player;
   
 
@@ -15,6 +16,7 @@ public class BombPlayer : MonoBehaviour {
     m_blastRadius = 10.0f;
     m_minWaitTime = 0.25f;
     m_aliveTime = 0.0f;
+    m_power = 20;
   }
 	
 	// Update is called once per frame
@@ -59,13 +61,25 @@ public class BombPlayer : MonoBehaviour {
     Collider2D[] hitColliders = Physics2D.OverlapCircleAll(transform.position, m_blastRadius);
     //Collider[] hitColliders = Physics.OverlapSphere(transform.position, m_blastRadius);
     foreach (Collider2D collider in hitColliders) {
+      var distance = Vector3.Distance(transform.position, collider.gameObject.transform.position);
+      if (distance == 0) // no division by 0
+        distance = 1;
+
+      // TODO: replace "DestructibleObject" with "Enemy"
       if (collider.gameObject.tag == "DestructibleObject") {
-        Destroy(collider.gameObject);
+        EnemyBase enemy = collider.gameObject.GetComponent<EnemyBase>();
+        enemy.ApplyDamage((int)(m_power / distance));
+      }
+      if (collider.gameObject.tag == "Asteroid")
+      {
+        Asteroid asteroid = collider.gameObject.GetComponent<Asteroid>();
+        asteroid.ApplyDamage((int)(m_power / distance));
       }
     }
 
     // Destroy bomb
     Destroy(gameObject);
+    Instantiate(Resources.Load("Prefabs\\CustomExplosion"), transform.position, Quaternion.identity);
   }
 
   //void SetPlayer(GameObject player) {

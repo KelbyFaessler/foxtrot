@@ -30,6 +30,7 @@ public class Player : MonoBehaviour {
   // AudioSources associated with player
   public AudioSource    m_FireAudio;
   public AudioSource    m_ExplosionAudio;
+  public AudioSource    m_ItemPickupAudio;
 
   // Health values
   private float m_MaxHealth;
@@ -78,6 +79,7 @@ public class Player : MonoBehaviour {
     var sounds = GetComponents<AudioSource>();
     m_ExplosionAudio = sounds[1];
     m_FireAudio = sounds[0];
+    m_ItemPickupAudio = sounds[2];
     
     m_HealthSlider = GetComponentInChildren<Slider>();
     m_MaxHealth = 10f;
@@ -295,10 +297,9 @@ public class Player : MonoBehaviour {
   // Check for collisions
   void OnTriggerEnter2D(Collider2D other)
   {
-    if (other.gameObject.name == "Asteroid(Clone)") {
+    if (other.gameObject.tag == "Asteroid")
       DamagePlayer(1f);
-    }
-    else
+    else if (other.gameObject.tag != "Health")
     {
       DamagePlayer(0.5f);
     }
@@ -319,6 +320,7 @@ public class Player : MonoBehaviour {
   // Add to player health
   public void ApplyHealth(float health)
   {
+    m_ItemPickupAudio.Play();
     if (m_CurrentHealth + health <= m_MaxHealth)
     {
       m_CurrentHealth += health;
