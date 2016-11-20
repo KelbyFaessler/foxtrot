@@ -2,7 +2,8 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="Unity.Instance.Unity Editor" />
   <MonoDevelop.Ide.Workbench ActiveDocument="Assets\Scripts\EnemySpawner\EnemySpawnerLevelOne.cs">
     <Files>
-      <File FileName="Assets\Scripts\EnemySpawner\EnemySpawnerLevelOne.cs" Line="32" Column="3" />
+      <File FileName="Assets\Scripts\EnemySpawner\EnemySpawnerLevelOne.cs" Line="7" Column="48" />
+      <File FileName="Assets\Scripts\EnemyShips\DDeridex.cs" Line="46" Column="46" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
