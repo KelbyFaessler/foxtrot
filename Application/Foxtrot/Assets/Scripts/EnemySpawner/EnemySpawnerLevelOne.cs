@@ -4,16 +4,14 @@ using System.Collections;
 public class EnemySpawnerLevelOne : MonoBehaviour 
 {
 	public GameObject[] LevelOneEnemies;
-	private GameObject[] VelesCount, NorexanCount;
-	float howManyVeles;
-	float howManyNorexan;
 	float maxVelesSpawnRateInSeconds = 5f;
 	float maxNorexanSpawnRateInSeconds = 10f;
-	//float StopVelesInvoke = 0;
+	float VelesCounter = 0f;
+	float NorexanCounter = 0f;
 
-	float maxVelesSpawns = 35f;
-	float maxNorexanSpawns = 25f;
-	float maxDderidexSpawns = 1f;
+	float maxVelesSpawns = 5f;
+	float maxNorexanSpawns = 5f;
+	float maxDderidexSpawns = 0f;
 
 	float StartTime = Time.time;
 	float Timer = 0.0f;
@@ -21,37 +19,40 @@ public class EnemySpawnerLevelOne : MonoBehaviour
 	// Use this for initialization
 	void Start () 
 	{
+		Invoke ("SpawnEnemyVeles", maxVelesSpawnRateInSeconds);
+		InvokeRepeating ("IncreaseVelesSpawnRate", 0f, 30f);
 
-		if (Timer < StartTime + .012f) {
-			Invoke ("SpawnEnemyVeles", maxVelesSpawnRateInSeconds);
-			InvokeRepeating ("IncreaseVelesSpawnRate", 0f, 30f);
-
-			Invoke ("SpawnEnemyNorexan", maxNorexanSpawnRateInSeconds);
-			InvokeRepeating ("IncreaseNorexanSpawnRate", 0f, 30f);
-		}
-		else
-		{
-			Invoke ("SpawnEnemyDderidex", 1f); 
-		}
+		Invoke ("SpawnEnemyNorexan", maxNorexanSpawnRateInSeconds);
+		InvokeRepeating ("IncreaseNorexanSpawnRate", 0f, 30f);
 	}
 	
 	// Update is called once per frame
 	void Update()
 	{
-		
+		if (VelesCounter > maxVelesSpawns && NorexanCounter > maxNorexanSpawns) 
+		{
+			Invoke ("SpawnEnemyDderidex", 1f);
+		}
 	}
 
 	void SpawnEnemyVeles()
 	{
-		var bounds = Globals.GetCameraBounds (gameObject);
-		float minY = bounds.m_MinY;
-		float maxY = bounds.m_MaxY;
-		float maxX = bounds.m_MaxX;
+		if (VelesCounter <= maxVelesSpawns) {
+			var bounds = Globals.GetCameraBounds (gameObject);
+			float minY = bounds.m_MinY;
+			float maxY = bounds.m_MaxY;
+			float maxX = bounds.m_MaxX;
 
-		GameObject anVeles = (GameObject)Instantiate (LevelOneEnemies [0]);
-		anVeles.transform.position = new Vector2 (maxX, Random.Range(minY, maxY));
+			GameObject anVeles = (GameObject)Instantiate (LevelOneEnemies [0]);
+			anVeles.transform.position = new Vector2 (maxX, Random.Range(minY, maxY));
 
-		ScheduleNextVelesSpawn ();
+
+			ScheduleNextVelesSpawn ();
+			VelesCounter++;
+		} 
+		else {
+			return;
+		}
 	}
 
 	void ScheduleNextVelesSpawn()
@@ -81,15 +82,22 @@ public class EnemySpawnerLevelOne : MonoBehaviour
 	// Spawns Enemy Norexan Ships
 	void SpawnEnemyNorexan()
 	{
-		var bounds = Globals.GetCameraBounds (gameObject);
-		float minY = bounds.m_MinY;
-		float maxY = bounds.m_MaxY;
-		float maxX = bounds.m_MaxX;
 
-		GameObject anNorexan = (GameObject)Instantiate (LevelOneEnemies [1]);
-		anNorexan.transform.position = new Vector2 (maxX, Random.Range(minY, maxY));
+		if (NorexanCounter <= maxNorexanSpawns) {
+			var bounds = Globals.GetCameraBounds (gameObject);
+			float minY = bounds.m_MinY;
+			float maxY = bounds.m_MaxY;
+			float maxX = bounds.m_MaxX;
 
-		ScheduleNextNorexanSpawn ();
+			GameObject anNorexan = (GameObject)Instantiate (LevelOneEnemies [1]);
+			anNorexan.transform.position = new Vector2 (maxX, Random.Range(minY, maxY));
+
+			ScheduleNextNorexanSpawn ();
+			NorexanCounter++;
+		} 
+		else {
+			return;
+		}
 	}
 
 	void ScheduleNextNorexanSpawn()
@@ -117,12 +125,21 @@ public class EnemySpawnerLevelOne : MonoBehaviour
 
 	void SpawnEnemyDderidex()
 	{
-		var bounds = Globals.GetCameraBounds (gameObject);
-		float maxY = bounds.m_MaxY;
-		float minY = bounds.m_MinY;
-		float maxX = bounds.m_MaxX;
+		if (maxDderidexSpawns < 1f)
+		{
+			var bounds = Globals.GetCameraBounds (gameObject);
+			float maxY = bounds.m_MaxY;
+			float minY = bounds.m_MinY;
+			float maxX = bounds.m_MaxX;
 
-		GameObject anDderidex = (GameObject)Instantiate (LevelOneEnemies [2]);
-		anDderidex.transform.position = new Vector2 (maxX, maxY/2.0f);
+			GameObject anDderidex = (GameObject)Instantiate (LevelOneEnemies [2]);
+			anDderidex.transform.position = new Vector2 (maxX, (maxY - minY)/3.0f);
+
+			maxDderidexSpawns++;
+		}
+		else
+		{
+			return;
+		}
 	}
 }
