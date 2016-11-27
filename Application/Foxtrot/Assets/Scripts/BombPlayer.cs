@@ -30,7 +30,7 @@ public class BombPlayer : MonoBehaviour {
   }
 
   void MoveBomb() {
-    // Find the right-most edge of the screen. If laser is to right of it, destroy it.
+    // Find the right-most edge of the screen. If bomb is to right of it, destroy it.
     float camDistance = Vector3.Distance(transform.position, Camera.main.transform.position);
     Vector2 bottomCorner = Camera.main.ViewportToWorldPoint(new Vector3(1, 1, camDistance));
     float maxX = bottomCorner.x + m_blastRadius;

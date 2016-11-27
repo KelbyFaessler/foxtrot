@@ -50,7 +50,8 @@ public class Player : MonoBehaviour {
   public ShipBase m_Ship;
 
   // Weapon references
-  private BombPlayer activeBomb = null;
+  private int m_numBombs;
+  private int m_numMultiShots;
 
   // Called before Start()
   void Awake()
@@ -87,6 +88,10 @@ public class Player : MonoBehaviour {
     m_HorizontalSpeed = 0f;
     m_VerticalSpeed = 0f;
     m_Visible = true;
+
+    //weapon initialization
+    m_numBombs = 0;
+    m_numMultiShots = 0;
   }
 	
 	// Update is called once per frame
@@ -105,23 +110,54 @@ public class Player : MonoBehaviour {
 
     if (Input.GetKeyDown(KeyCode.Space))
     {
-      m_FireAudio.Play();
-      Vector3 laserPosition = transform.position;
-      laserPosition.x = laserPosition.x + m_Ship.m_SpriteWidthFromCenter;
-      Instantiate(Resources.Load("Prefabs\\Weapons\\LaserPlayer"), laserPosition, Quaternion.identity);
+      if (m_numMultiShots <= 0) {
+        m_FireAudio.Play();
+        Vector3 laserPosition = transform.position;
+        laserPosition.x = laserPosition.x + m_Ship.m_SpriteWidthFromCenter;
+        Instantiate(Resources.Load("Prefabs\\Weapons\\LaserPlayer"), laserPosition, Quaternion.identity);
+      } else { //fire multishot
+        //straight shots
+        m_FireAudio.Play();
+        Vector3 midLaserPosition = transform.position;
+        midLaserPosition.x = midLaserPosition.x + m_Ship.m_SpriteWidthFromCenter;
+        Instantiate(Resources.Load("Prefabs\\Weapons\\LaserPlayer"), midLaserPosition, Quaternion.identity);
+        Vector3 topLaserPosition = transform.position;
+        topLaserPosition.x = topLaserPosition.x + 0.5f * m_Ship.m_SpriteWidthFromCenter;
+        topLaserPosition.y = topLaserPosition.y + 0.25f * m_Ship.m_SpriteWidthFromCenter;
+        Instantiate(Resources.Load("Prefabs\\Weapons\\LaserPlayer"), topLaserPosition, Quaternion.identity);
+        Vector3 botLaserPosition = transform.position;
+        botLaserPosition.x = botLaserPosition.x + 0.5f * m_Ship.m_SpriteWidthFromCenter;
+        botLaserPosition.y = botLaserPosition.y - 0.25f * m_Ship.m_SpriteWidthFromCenter;
+        Instantiate(Resources.Load("Prefabs\\Weapons\\LaserPlayer"), botLaserPosition, Quaternion.identity);
+        m_numMultiShots -= 1;
+        //diagonal shots
+        //Vector3 topDiagLaserPosition = transform.position;
+        //topDiagLaserPosition.x = topDiagLaserPosition.x + 0.5f * m_Ship.m_SpriteWidthFromCenter;
+        //topDiagLaserPosition.y = topDiagLaserPosition.y + 0.75f * m_Ship.m_SpriteWidthFromCenter;
+        //Quaternion topDiagLaserRotation = transform.rotation;
+        //topDiagLaserRotation.z = topDiagLaserRotation.z - 10;
+        //Instantiate(Resources.Load("Prefabs\\Weapons\\LaserPlayer"), topDiagLaserPosition, topDiagLaserRotation);
+        //Vector3 botDiagLaserPosition = transform.position;
+        //botDiagLaserPosition.x = botDiagLaserPosition.x + 0.5f * m_Ship.m_SpriteWidthFromCenter;
+        //botDiagLaserPosition.y = botDiagLaserPosition.y - 0.75f * m_Ship.m_SpriteWidthFromCenter;
+        //Quaternion botDiagLaserRotation = transform.rotation;
+        //botDiagLaserRotation.z = topDiagLaserRotation.z + 10;
+        //Instantiate(Resources.Load("Prefabs\\Weapons\\LaserPlayer"), botDiagLaserPosition, botDiagLaserRotation);
+
+        m_numMultiShots -= 1;
+      }
     }
 
     bool noCurrentBomb = (GameObject.Find("bomb") == null);
-    if (Input.GetKeyDown(KeyCode.B) && noCurrentBomb)
+    if (Input.GetKeyDown(KeyCode.B) && noCurrentBomb && m_numBombs > 0)
     {
       // Need bomb audio here
       Vector3 bombPosition = transform.position;
       bombPosition.x = bombPosition.x + m_Ship.m_SpriteWidthFromCenter * 1.2f;
       GameObject bombGameObject = (GameObject)Instantiate(Resources.Load("Prefabs\\Weapons\\BombPlayer"), bombPosition, Quaternion.identity);
       bombGameObject.name = "bomb";
-      //bombGameObject.GetComponent(UnityScript);
-      //activeBomb = (BombPlayer)bombGameObject;
-      //activeBomb.SetPlayer();
+
+      m_numBombs -= 1;
     }
 
     if (Input.GetKeyDown(KeyCode.V))
@@ -329,5 +365,17 @@ public class Player : MonoBehaviour {
     {
       m_CurrentHealth = m_MaxHealth;
     }
+  }
+
+  public void ApplyBombs()
+  {
+    m_ItemPickupAudio.Play();
+    m_numBombs += 3;
+  }
+
+  public void ApplyMultiShots()
+  {
+    m_ItemPickupAudio.Play();
+    m_numMultiShots += 20;
   }
 }
