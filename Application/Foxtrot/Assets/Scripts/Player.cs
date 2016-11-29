@@ -35,7 +35,12 @@ public class Player : MonoBehaviour {
   // Health values
   private float m_MaxHealth;
   public float m_CurrentHealth;
+  private float m_HealthScale;
+
   public bool m_Visible;
+
+  private int m_Score;
+  private Text m_ScoreText;
 
   // Connection to health slider
   public Slider m_HealthSlider;
@@ -83,10 +88,14 @@ public class Player : MonoBehaviour {
     
     m_HealthSlider = GetComponentInChildren<Slider>();
     m_MaxHealth = 10f;
-    m_CurrentHealth = m_HealthSlider.value;
+    m_HealthScale = m_MaxHealth / 100f;
+    m_CurrentHealth = m_HealthSlider.value * m_HealthScale;
     m_HorizontalSpeed = 0f;
     m_VerticalSpeed = 0f;
     m_Visible = true;
+
+    m_Score = 0;
+    m_ScoreText = GetComponentsInChildren<Text>()[1];
   }
 	
 	// Update is called once per frame
@@ -123,23 +132,6 @@ public class Player : MonoBehaviour {
       //activeBomb = (BombPlayer)bombGameObject;
       //activeBomb.SetPlayer();
     }
-
-    if (Input.GetKeyDown(KeyCode.V))
-    {
-      if (m_CurrentHealth < m_MaxHealth)
-      {
-        m_CurrentHealth += 1f;
-      }
-    }
-    if (Input.GetKeyDown(KeyCode.C))
-    {
-      if (m_CurrentHealth > 0)
-      {
-        m_CurrentHealth -= 1f;
-      }
-    }
-
-    m_HealthSlider.value = m_CurrentHealth;
 	}
 
   /***********************************************************
@@ -314,6 +306,7 @@ public class Player : MonoBehaviour {
     else
       m_CurrentHealth = 0;
 
+    m_HealthSlider.value = m_CurrentHealth / m_HealthScale;
     m_ExplosionAudio.Play();
   }
 
@@ -329,5 +322,12 @@ public class Player : MonoBehaviour {
     {
       m_CurrentHealth = m_MaxHealth;
     }
+    m_HealthSlider.value = m_CurrentHealth / m_HealthScale;
+  }
+
+  public void AddScore(int score)
+  {
+    m_Score += score;
+    m_ScoreText.text  = string.Format("{0}", m_Score);
   }
 }

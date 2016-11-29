@@ -74,6 +74,7 @@ public class EnemyBase : MonoBehaviour {
       default:
         break;
     }
+    Player.instance.AddScore((int)m_points);
     Destroy(gameObject);
   }
 }

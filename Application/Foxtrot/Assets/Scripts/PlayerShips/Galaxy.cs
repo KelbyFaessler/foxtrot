@@ -15,7 +15,7 @@ public class Galaxy : ShipBase {
   void Awake()
   {
     m_BaseMaxHealth = 10f;
-    m_MoveSpeed = 0.5f;
+    m_MoveSpeed = 0.25f;
     m_Name = "Galaxy Class";
     m_Acceleration = 0.2f;
 
