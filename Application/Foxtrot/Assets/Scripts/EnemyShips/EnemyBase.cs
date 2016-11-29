@@ -71,7 +71,14 @@ public class EnemyBase : MonoBehaviour {
       case 1:
         Instantiate(Resources.Load("Prefabs\\Drops\\HealthDrop"), transform.position, Quaternion.identity);
         break;
+      case 2:
+        Instantiate(Resources.Load("Prefabs\\Drops\\MultiShotDrop"), transform.position, Quaternion.identity);
+        break;
+      case 3:
+        Instantiate(Resources.Load("Prefabs\\Drops\\BombDrop"), transform.position, Quaternion.identity);
+        break;
       default:
+        //Instantiate(Resources.Load("Prefabs\\Drops\\MultiShotDrop"), transform.position, Quaternion.identity);
         break;
     }
     Player.instance.AddScore((int)m_points);
