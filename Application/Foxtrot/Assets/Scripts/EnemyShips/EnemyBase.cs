@@ -66,7 +66,8 @@ public class EnemyBase : MonoBehaviour {
 
   protected void DestroySelf()
   {
-    switch(m_DropNumber)
+    Destroy(gameObject);
+    switch (m_DropNumber)
     {
       case 1:
         Instantiate(Resources.Load("Prefabs\\Drops\\HealthDrop"), transform.position, Quaternion.identity);
@@ -82,6 +83,5 @@ public class EnemyBase : MonoBehaviour {
         break;
     }
     Player.instance.AddScore((int)m_points);
-    Destroy(gameObject);
   }
 }
