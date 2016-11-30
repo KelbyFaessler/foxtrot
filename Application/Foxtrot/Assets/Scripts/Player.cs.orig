@@ -56,7 +56,9 @@ public class Player : MonoBehaviour {
 
   // Weapon references
   private int m_numBombs;
+  private Text m_BombText;
   private int m_numMultiShots;
+  private Text m_MultiShotText;
 
   // Called before Start()
   void Awake()
@@ -95,14 +97,13 @@ public class Player : MonoBehaviour {
     m_VerticalSpeed = 0f;
     m_Visible = true;
 
-<<<<<<< HEAD
     m_Score = 0;
-    m_ScoreText = GetComponentsInChildren<Text>()[1];
-=======
-    //weapon initialization
-    m_numBombs = 0;
+    Text[] textArray = HUDCanvas.instance.GetComponentsInChildren<Text>();
+    m_ScoreText = textArray[1];
+    m_numBombs  = 0;
+    m_BombText  = textArray[2];
     m_numMultiShots = 0;
->>>>>>> refs/remotes/origin/master
+    m_MultiShotText = textArray[3];
   }
 	
 	// Update is called once per frame
@@ -131,17 +132,19 @@ public class Player : MonoBehaviour {
         m_FireAudio.Play();
         Vector3 midLaserPosition = transform.position;
         midLaserPosition.x = midLaserPosition.x + m_Ship.m_SpriteWidthFromCenter;
-        Instantiate(Resources.Load("Prefabs\\Weapons\\LaserPlayer"), midLaserPosition, Quaternion.identity);
+        Instantiate(Resources.Load("Prefabs\\Weapons\\LaserPlayerDiagonal"), midLaserPosition, Quaternion.identity);
         Vector3 topLaserPosition = transform.position;
         topLaserPosition.x = topLaserPosition.x + 0.5f * m_Ship.m_SpriteWidthFromCenter;
         topLaserPosition.y = topLaserPosition.y + 0.25f * m_Ship.m_SpriteWidthFromCenter;
-        Instantiate(Resources.Load("Prefabs\\Weapons\\LaserPlayer"), topLaserPosition, Quaternion.identity);
+        Instantiate(Resources.Load("Prefabs\\Weapons\\LaserPlayerDiagonal"), topLaserPosition, Quaternion.identity);
         Vector3 botLaserPosition = transform.position;
         botLaserPosition.x = botLaserPosition.x + 0.5f * m_Ship.m_SpriteWidthFromCenter;
         botLaserPosition.y = botLaserPosition.y - 0.25f * m_Ship.m_SpriteWidthFromCenter;
-        Instantiate(Resources.Load("Prefabs\\Weapons\\LaserPlayer"), botLaserPosition, Quaternion.identity);
+        Instantiate(Resources.Load("Prefabs\\Weapons\\LaserPlayerDiagonal"), botLaserPosition, Quaternion.identity);
         m_numMultiShots -= 1;
+        m_MultiShotText.text = string.Format("{0}", m_numMultiShots);
         //diagonal shots
+<<<<<<< HEAD
         //Vector3 topDiagLaserPosition = transform.position;
         //topDiagLaserPosition.x = topDiagLaserPosition.x + 0.5f * m_Ship.m_SpriteWidthFromCenter;
         //topDiagLaserPosition.y = topDiagLaserPosition.y + 0.75f * m_Ship.m_SpriteWidthFromCenter;
@@ -154,8 +157,22 @@ public class Player : MonoBehaviour {
         //Quaternion botDiagLaserRotation = transform.rotation;
         //botDiagLaserRotation.z = topDiagLaserRotation.z + 10;
         //Instantiate(Resources.Load("Prefabs\\Weapons\\LaserPlayer"), botDiagLaserPosition, botDiagLaserRotation);
+=======
+        Vector3 topDiagLaserPosition = transform.position;
+        topDiagLaserPosition.x = topDiagLaserPosition.x + 0.5f * m_Ship.m_SpriteWidthFromCenter;
+        topDiagLaserPosition.y = topDiagLaserPosition.y + 0.75f * m_Ship.m_SpriteWidthFromCenter;
+        Quaternion topDiagLaserRotation = transform.rotation;
+        topDiagLaserRotation.z = topDiagLaserRotation.z + 10 * Mathf.Deg2Rad;
+        Instantiate(Resources.Load("Prefabs\\Weapons\\LaserPlayerDiagonal"), topDiagLaserPosition, topDiagLaserRotation);
+        Vector3 botDiagLaserPosition = transform.position;
+        botDiagLaserPosition.x = botDiagLaserPosition.x + 0.5f * m_Ship.m_SpriteWidthFromCenter;
+        botDiagLaserPosition.y = botDiagLaserPosition.y - 0.75f * m_Ship.m_SpriteWidthFromCenter;
+        Quaternion botDiagLaserRotation = transform.rotation;
+        botDiagLaserRotation.z = botDiagLaserRotation.z - 10 * Mathf.Deg2Rad;
+        Instantiate(Resources.Load("Prefabs\\Weapons\\LaserPlayerDiagonal"), botDiagLaserPosition, botDiagLaserRotation);
 
         m_numMultiShots -= 1;
+>>>>>>> refs/remotes/origin/master
       }
     }
 
@@ -169,6 +186,7 @@ public class Player : MonoBehaviour {
       bombGameObject.name = "bomb";
 
       m_numBombs -= 1;
+      m_BombText.text = string.Format("{0}", m_numBombs);
     }
 	}
 
@@ -366,18 +384,20 @@ public class Player : MonoBehaviour {
   public void AddScore(int score)
   {
     m_Score += score;
-    m_ScoreText.text  = string.Format("{0}", m_Score);
+    m_ScoreText.text = string.Format("{0}", m_Score);
   }
 
   public void ApplyBombs()
   {
     m_ItemPickupAudio.Play();
     m_numBombs += 3;
+    m_BombText.text = string.Format("{0}", m_numBombs);
   }
 
   public void ApplyMultiShots()
   {
     m_ItemPickupAudio.Play();
-    m_numMultiShots += 20;
+    m_numMultiShots += 40;
+    m_MultiShotText.text = string.Format("{0}", m_numMultiShots);
   }
 }

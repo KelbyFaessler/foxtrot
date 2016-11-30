@@ -1,11 +1,13 @@
 fileFormatVersion: 2
 guid: 5bc722d492cf26a49b863e879d39d82e
-timeCreated: 1476757183
+timeCreated: 1480484363
 licenseType: Free
 MonoImporter:
   serializedVersion: 2
   defaultReferences:
   - m_Player: {fileID: 1000010669354222, guid: eaf37f5019c822e469ed928909c49c9f, type: 2}
+  - m_HUDCanvas: {fileID: 1000013086205644, guid: 2ba91ce847e006d4e993840cbe0e2078,
+      type: 2}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

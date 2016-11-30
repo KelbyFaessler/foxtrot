@@ -4,6 +4,7 @@ using System.Collections;
 // Instantiates the static instance of Player
 public class Loader : MonoBehaviour {
   public GameObject m_Player;
+  public GameObject m_HUDCanvas;
 
 	// Use this for initialization
 	void Awake () {
@@ -12,5 +13,10 @@ public class Loader : MonoBehaviour {
       Instantiate(m_Player);
     }
     Player.instance.GetCameraBounds();
+
+    if (HUDCanvas.instance == null)
+    {
+      Instantiate(m_HUDCanvas);
+    }
 	}
 }
