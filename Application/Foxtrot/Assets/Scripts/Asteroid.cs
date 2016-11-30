@@ -6,12 +6,14 @@ public class Asteroid : MonoBehaviour {
   private bool m_IsDestroyed;
   private int m_DestructionFrames;
   private int m_Durability;
+  private int m_DropNumber;
 
   // Use this for initialization
   void Start () {
     m_IsDestroyed = false;
     m_DestructionFrames = 0;
     m_Durability = Random.Range(3, 7);
+    m_DropNumber = Random.Range(0, 10);
 	}
 	
 	// Update is called once per frame
@@ -39,7 +41,23 @@ public class Asteroid : MonoBehaviour {
       transform.Rotate(new Vector3(9, 0, 0));
       m_DestructionFrames++;
       if (m_DestructionFrames == 64)
+      {
         Destroy(gameObject);
+        switch (m_DropNumber)
+        {
+          case 1:
+            Instantiate(Resources.Load("Prefabs\\Drops\\HealthDrop"), transform.position, Quaternion.identity);
+            break;
+          case 2:
+            Instantiate(Resources.Load("Prefabs\\Drops\\MultiShotDrop"), transform.position, Quaternion.identity);
+            break;
+          case 3:
+            Instantiate(Resources.Load("Prefabs\\Drops\\BombDrop"), transform.position, Quaternion.identity);
+            break;
+          default:
+            break;
+        }
+      }
     }
   }
 
