@@ -69,16 +69,16 @@ public class EnemyBase : MonoBehaviour {
     switch(m_DropNumber)
     {
       case 1:
-        Instantiate(Resources.Load("Prefabs\\Drops\\HealthDrop"), transform.position, Quaternion.identity);
-        break;
+        //Instantiate(Resources.Load("Prefabs\\Drops\\HealthDrop"), transform.position, Quaternion.identity);
+        //break;
       case 2:
-        Instantiate(Resources.Load("Prefabs\\Drops\\MultiShotDrop"), transform.position, Quaternion.identity);
-        break;
-      case 3:
-        Instantiate(Resources.Load("Prefabs\\Drops\\BombDrop"), transform.position, Quaternion.identity);
-        break;
-      default:
         //Instantiate(Resources.Load("Prefabs\\Drops\\MultiShotDrop"), transform.position, Quaternion.identity);
+        //break;
+      case 3:
+        //Instantiate(Resources.Load("Prefabs\\Drops\\BombDrop"), transform.position, Quaternion.identity);
+        //break;
+      default:
+        Instantiate(Resources.Load("Prefabs\\Drops\\MultiShotDrop"), transform.position, Quaternion.identity);
         break;
     }
     Destroy(gameObject);
