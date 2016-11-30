@@ -35,7 +35,12 @@ public class Player : MonoBehaviour {
   // Health values
   private float m_MaxHealth;
   public float m_CurrentHealth;
+  private float m_HealthScale;
+
   public bool m_Visible;
+
+  private int m_Score;
+  private Text m_ScoreText;
 
   // Connection to health slider
   public Slider m_HealthSlider;
@@ -51,7 +56,9 @@ public class Player : MonoBehaviour {
 
   // Weapon references
   private int m_numBombs;
+  private Text m_BombText;
   private int m_numMultiShots;
+  private Text m_MultiShotText;
 
   // Called before Start()
   void Awake()
@@ -84,14 +91,19 @@ public class Player : MonoBehaviour {
     
     m_HealthSlider = GetComponentInChildren<Slider>();
     m_MaxHealth = 10f;
-    m_CurrentHealth = m_HealthSlider.value;
+    m_HealthScale = m_MaxHealth / 100f;
+    m_CurrentHealth = m_HealthSlider.value * m_HealthScale;
     m_HorizontalSpeed = 0f;
     m_VerticalSpeed = 0f;
     m_Visible = true;
 
-    //weapon initialization
-    m_numBombs = 0;
+    m_Score = 0;
+    Text[] textArray = HUDCanvas.instance.GetComponentsInChildren<Text>();
+    m_ScoreText = textArray[1];
+    m_numBombs  = 0;
+    m_BombText  = textArray[2];
     m_numMultiShots = 0;
+    m_MultiShotText = textArray[3];
   }
 	
 	// Update is called once per frame
@@ -130,6 +142,7 @@ public class Player : MonoBehaviour {
         botLaserPosition.y = botLaserPosition.y - 0.25f * m_Ship.m_SpriteWidthFromCenter;
         Instantiate(Resources.Load("Prefabs\\Weapons\\LaserPlayerDiagonal"), botLaserPosition, Quaternion.identity);
         m_numMultiShots -= 1;
+        m_MultiShotText.text = string.Format("{0}", m_numMultiShots);
         //diagonal shots
         Vector3 topDiagLaserPosition = transform.position;
         topDiagLaserPosition.x = topDiagLaserPosition.x + 0.5f * m_Ship.m_SpriteWidthFromCenter;
@@ -143,8 +156,6 @@ public class Player : MonoBehaviour {
         Quaternion botDiagLaserRotation = transform.rotation;
         botDiagLaserRotation.z = botDiagLaserRotation.z - 10 * Mathf.Deg2Rad;
         Instantiate(Resources.Load("Prefabs\\Weapons\\LaserPlayerDiagonal"), botDiagLaserPosition, botDiagLaserRotation);
-
-        m_numMultiShots -= 1;
       }
     }
 
@@ -158,24 +169,8 @@ public class Player : MonoBehaviour {
       bombGameObject.name = "bomb";
 
       m_numBombs -= 1;
+      m_BombText.text = string.Format("{0}", m_numBombs);
     }
-
-    if (Input.GetKeyDown(KeyCode.V))
-    {
-      if (m_CurrentHealth < m_MaxHealth)
-      {
-        m_CurrentHealth += 1f;
-      }
-    }
-    if (Input.GetKeyDown(KeyCode.C))
-    {
-      if (m_CurrentHealth > 0)
-      {
-        m_CurrentHealth -= 1f;
-      }
-    }
-
-    m_HealthSlider.value = m_CurrentHealth;
 	}
 
   /***********************************************************
@@ -350,6 +345,7 @@ public class Player : MonoBehaviour {
     else
       m_CurrentHealth = 0;
 
+    m_HealthSlider.value = m_CurrentHealth / m_HealthScale;
     m_ExplosionAudio.Play();
   }
 
@@ -365,17 +361,26 @@ public class Player : MonoBehaviour {
     {
       m_CurrentHealth = m_MaxHealth;
     }
+    m_HealthSlider.value = m_CurrentHealth / m_HealthScale;
+  }
+
+  public void AddScore(int score)
+  {
+    m_Score += score;
+    m_ScoreText.text = string.Format("{0}", m_Score);
   }
 
   public void ApplyBombs()
   {
     m_ItemPickupAudio.Play();
     m_numBombs += 3;
+    m_BombText.text = string.Format("{0}", m_numBombs);
   }
 
   public void ApplyMultiShots()
   {
     m_ItemPickupAudio.Play();
-    m_numMultiShots += 20;
+    m_numMultiShots += 40;
+    m_MultiShotText.text = string.Format("{0}", m_numMultiShots);
   }
 }

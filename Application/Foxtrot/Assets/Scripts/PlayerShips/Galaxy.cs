@@ -17,7 +17,7 @@ public class Galaxy : ShipBase {
     m_BaseMaxHealth = 10f;
     m_MoveSpeed = 0.25f;
     m_Name = "Galaxy Class";
-    m_Acceleration = 0.005f;
+    m_Acceleration = 0.2f;
 
     if (m_SpriteRenderer == null)
     {
