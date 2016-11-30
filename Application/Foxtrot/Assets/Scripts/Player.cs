@@ -98,7 +98,7 @@ public class Player : MonoBehaviour {
     m_Visible = true;
 
     m_Score = 0;
-    Text[] textArray = GameObject.Find("HUDCanvas").GetComponentsInChildren<Text>();
+    Text[] textArray = HUDCanvas.instance.GetComponentsInChildren<Text>();
     m_ScoreText = textArray[1];
     m_numBombs  = 0;
     m_BombText  = textArray[2];
@@ -132,30 +132,30 @@ public class Player : MonoBehaviour {
         m_FireAudio.Play();
         Vector3 midLaserPosition = transform.position;
         midLaserPosition.x = midLaserPosition.x + m_Ship.m_SpriteWidthFromCenter;
-        Instantiate(Resources.Load("Prefabs\\Weapons\\LaserPlayer"), midLaserPosition, Quaternion.identity);
+        Instantiate(Resources.Load("Prefabs\\Weapons\\LaserPlayerDiagonal"), midLaserPosition, Quaternion.identity);
         Vector3 topLaserPosition = transform.position;
         topLaserPosition.x = topLaserPosition.x + 0.5f * m_Ship.m_SpriteWidthFromCenter;
         topLaserPosition.y = topLaserPosition.y + 0.25f * m_Ship.m_SpriteWidthFromCenter;
-        Instantiate(Resources.Load("Prefabs\\Weapons\\LaserPlayer"), topLaserPosition, Quaternion.identity);
+        Instantiate(Resources.Load("Prefabs\\Weapons\\LaserPlayerDiagonal"), topLaserPosition, Quaternion.identity);
         Vector3 botLaserPosition = transform.position;
         botLaserPosition.x = botLaserPosition.x + 0.5f * m_Ship.m_SpriteWidthFromCenter;
         botLaserPosition.y = botLaserPosition.y - 0.25f * m_Ship.m_SpriteWidthFromCenter;
-        Instantiate(Resources.Load("Prefabs\\Weapons\\LaserPlayer"), botLaserPosition, Quaternion.identity);
+        Instantiate(Resources.Load("Prefabs\\Weapons\\LaserPlayerDiagonal"), botLaserPosition, Quaternion.identity);
         m_numMultiShots -= 1;
         m_MultiShotText.text = string.Format("{0}", m_numMultiShots);
         //diagonal shots
-        //Vector3 topDiagLaserPosition = transform.position;
-        //topDiagLaserPosition.x = topDiagLaserPosition.x + 0.5f * m_Ship.m_SpriteWidthFromCenter;
-        //topDiagLaserPosition.y = topDiagLaserPosition.y + 0.75f * m_Ship.m_SpriteWidthFromCenter;
-        //Quaternion topDiagLaserRotation = transform.rotation;
-        //topDiagLaserRotation.z = topDiagLaserRotation.z - 10;
-        //Instantiate(Resources.Load("Prefabs\\Weapons\\LaserPlayer"), topDiagLaserPosition, topDiagLaserRotation);
-        //Vector3 botDiagLaserPosition = transform.position;
-        //botDiagLaserPosition.x = botDiagLaserPosition.x + 0.5f * m_Ship.m_SpriteWidthFromCenter;
-        //botDiagLaserPosition.y = botDiagLaserPosition.y - 0.75f * m_Ship.m_SpriteWidthFromCenter;
-        //Quaternion botDiagLaserRotation = transform.rotation;
-        //botDiagLaserRotation.z = topDiagLaserRotation.z + 10;
-        //Instantiate(Resources.Load("Prefabs\\Weapons\\LaserPlayer"), botDiagLaserPosition, botDiagLaserRotation);
+        Vector3 topDiagLaserPosition = transform.position;
+        topDiagLaserPosition.x = topDiagLaserPosition.x + 0.5f * m_Ship.m_SpriteWidthFromCenter;
+        topDiagLaserPosition.y = topDiagLaserPosition.y + 0.75f * m_Ship.m_SpriteWidthFromCenter;
+        Quaternion topDiagLaserRotation = transform.rotation;
+        topDiagLaserRotation.z = topDiagLaserRotation.z + 10 * Mathf.Deg2Rad;
+        Instantiate(Resources.Load("Prefabs\\Weapons\\LaserPlayerDiagonal"), topDiagLaserPosition, topDiagLaserRotation);
+        Vector3 botDiagLaserPosition = transform.position;
+        botDiagLaserPosition.x = botDiagLaserPosition.x + 0.5f * m_Ship.m_SpriteWidthFromCenter;
+        botDiagLaserPosition.y = botDiagLaserPosition.y - 0.75f * m_Ship.m_SpriteWidthFromCenter;
+        Quaternion botDiagLaserRotation = transform.rotation;
+        botDiagLaserRotation.z = botDiagLaserRotation.z - 10 * Mathf.Deg2Rad;
+        Instantiate(Resources.Load("Prefabs\\Weapons\\LaserPlayerDiagonal"), botDiagLaserPosition, botDiagLaserRotation);
       }
     }
 
