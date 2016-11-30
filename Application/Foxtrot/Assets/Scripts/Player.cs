@@ -58,6 +58,7 @@ public class Player : MonoBehaviour {
   private int m_numBombs;
   private Text m_BombText;
   private int m_numMultiShots;
+  private Text m_MultiShotText;
 
   // Called before Start()
   void Awake()
@@ -100,8 +101,9 @@ public class Player : MonoBehaviour {
     Text[] textArray = GameObject.Find("HUDCanvas").GetComponentsInChildren<Text>();
     m_ScoreText = textArray[1];
     m_numBombs  = 0;
-    m_BombText  = textArray[3];
+    m_BombText  = textArray[2];
     m_numMultiShots = 0;
+    m_MultiShotText = textArray[3];
   }
 	
 	// Update is called once per frame
@@ -140,6 +142,7 @@ public class Player : MonoBehaviour {
         botLaserPosition.y = botLaserPosition.y - 0.25f * m_Ship.m_SpriteWidthFromCenter;
         Instantiate(Resources.Load("Prefabs\\Weapons\\LaserPlayer"), botLaserPosition, Quaternion.identity);
         m_numMultiShots -= 1;
+        m_MultiShotText.text = string.Format("{0}", m_numMultiShots);
         //diagonal shots
         //Vector3 topDiagLaserPosition = transform.position;
         //topDiagLaserPosition.x = topDiagLaserPosition.x + 0.5f * m_Ship.m_SpriteWidthFromCenter;
@@ -153,8 +156,6 @@ public class Player : MonoBehaviour {
         //Quaternion botDiagLaserRotation = transform.rotation;
         //botDiagLaserRotation.z = topDiagLaserRotation.z + 10;
         //Instantiate(Resources.Load("Prefabs\\Weapons\\LaserPlayer"), botDiagLaserPosition, botDiagLaserRotation);
-
-        m_numMultiShots -= 1;
       }
     }
 
@@ -379,6 +380,7 @@ public class Player : MonoBehaviour {
   public void ApplyMultiShots()
   {
     m_ItemPickupAudio.Play();
-    m_numMultiShots += 20;
+    m_numMultiShots += 40;
+    m_MultiShotText.text = string.Format("{0}", m_numMultiShots);
   }
 }
