@@ -9,6 +9,7 @@
  ******************************************************************/
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using System.Collections;
 
 public class Player : MonoBehaviour {
@@ -26,7 +27,10 @@ public class Player : MonoBehaviour {
   private float m_MaxX;
   private float m_MinY;
   private float m_MaxY;
-  
+
+  private float m_TimeOfDeath;
+  private bool m_Destroyed;
+
   // AudioSources associated with player
   public AudioSource    m_FireAudio;
   public AudioSource    m_ExplosionAudio;
@@ -104,6 +108,9 @@ public class Player : MonoBehaviour {
     m_BombText  = textArray[2];
     m_numMultiShots = 0;
     m_MultiShotText = textArray[3];
+
+    m_TimeOfDeath = -1f;
+    m_Destroyed = false;
   }
 	
 	// Update is called once per frame
@@ -115,6 +122,17 @@ public class Player : MonoBehaviour {
     if (Input.GetKey("escape"))
     {
       Application.Quit();
+    }
+
+    if (m_Destroyed)
+    {
+      float deltaTimeOfDeath = Time.time - m_TimeOfDeath;
+      if (deltaTimeOfDeath >= 3f)
+      {
+        SceneManager.LoadSceneAsync("MainMenu");
+        Destroy(HUDCanvas.instance.gameObject);
+        Destroy(gameObject);
+      }
     }
 
     // Get movement input from player
@@ -345,9 +363,28 @@ public class Player : MonoBehaviour {
     else
       m_CurrentHealth = 0;
 
+    if (m_CurrentHealth == 0)
+      PlayerDied();
+
     m_HealthSlider.value = m_CurrentHealth / m_HealthScale;
     m_ExplosionAudio.Play();
   }
+
+
+  private void PlayerDied()
+  {
+    // Reset everything, since player persists
+    m_CurrentHealth = m_MaxHealth;
+    m_numBombs = 0;
+    m_BombText.text = "0";
+    m_numMultiShots = 0;
+    m_MultiShotText.text = "0";
+
+    GameObject gameOver = (GameObject) Instantiate(Resources.Load("Prefabs\\GameOverCanvas"), Camera.main.transform.position, Quaternion.identity);
+    m_Destroyed = true;
+    m_TimeOfDeath = Time.time;
+  }
+
 
   // Add to player health
   public void ApplyHealth(float health)
