@@ -13,9 +13,6 @@ public class EnemySpawnerLevelOne : MonoBehaviour
 	float maxNorexanSpawns = 5f;
 	float maxDderidexSpawns = 0f;
 
-	float StartTime = Time.time;
-	float Timer = 0.0f;
-
 	// Use this for initialization
 	void Start () 
 	{
