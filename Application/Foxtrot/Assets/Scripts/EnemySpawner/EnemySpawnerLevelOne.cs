@@ -130,7 +130,7 @@ public class EnemySpawnerLevelOne : MonoBehaviour
 			float maxX = bounds.m_MaxX;
 
 			GameObject anDderidex = (GameObject)Instantiate (LevelOneEnemies [2]);
-			anDderidex.transform.position = new Vector2 (maxX, (maxY - minY)/3.0f);
+			anDderidex.transform.position = new Vector2 (maxX, (1*(maxY - minY)/2)+minY);
 
 			maxDderidexSpawns++;
 		}
