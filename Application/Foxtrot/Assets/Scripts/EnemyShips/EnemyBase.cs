@@ -41,7 +41,7 @@ public class EnemyBase : MonoBehaviour {
     m_CurrentHealth = m_BaseMaxHealth;
     m_HealthScale = m_BaseMaxHealth / 10f;
     // the drop number will determine which, if any, item an enemy drops
-    m_DropNumber = (int)Random.Range(0, 10);
+    m_DropNumber = (int)Random.Range(0, 20);
 	}
 	
 	// Update is called once per frame
@@ -64,7 +64,7 @@ public class EnemyBase : MonoBehaviour {
     m_CurrentHealth -= damage;
   }
 
-  protected void DestroySelf()
+  protected virtual void DestroySelf()
   {
     Destroy(gameObject);
     switch (m_DropNumber)
