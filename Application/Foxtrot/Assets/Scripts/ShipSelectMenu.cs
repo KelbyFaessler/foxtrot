@@ -22,6 +22,7 @@ public class ShipSelectMenu : MonoBehaviour {
     m_ProgressSlider = GetComponentInChildren<Slider>();
     m_ProgressCanvas = GetComponentsInChildren<Canvas>()[1];
     HideSlider(true);
+    HUDCanvas.instance.gameObject.SetActive(false);
   }
 
   /*************************************************/
@@ -43,6 +44,7 @@ public class ShipSelectMenu : MonoBehaviour {
       m_ProgressSlider.value = result.progress;
     }
     Player.instance.SetVisible(true);
+    HUDCanvas.instance.gameObject.SetActive(true);
   }
 
   /*************************************************/
