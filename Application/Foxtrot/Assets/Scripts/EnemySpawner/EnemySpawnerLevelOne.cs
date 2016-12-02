@@ -25,8 +25,10 @@ public class EnemySpawnerLevelOne : MonoBehaviour
 	
 	// Update is called once per frame
 	void Update()
-	{
-		if (VelesCounter > maxVelesSpawns && NorexanCounter > maxNorexanSpawns) 
+  {
+    if (Input.GetKey(KeyCode.C))
+      SpawnEnemyDderidex();
+    if (VelesCounter > maxVelesSpawns && NorexanCounter > maxNorexanSpawns) 
 		{
 			Invoke ("SpawnEnemyDderidex", 1f);
 		}

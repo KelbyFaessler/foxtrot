@@ -348,11 +348,10 @@ public class Player : MonoBehaviour {
   {
     if (other.gameObject.tag == "Asteroid")
       DamagePlayer(1f);
-    else if (other.gameObject.tag != "Health")
-    {
+    else if (other.gameObject.tag == "DestructibleObject" || other.gameObject.tag == "EnemyLaser")
       DamagePlayer(0.5f);
-    }
-    Destroy(other.gameObject);
+    if (other.gameObject.tag != "PlayerWeapon")
+      Destroy(other.gameObject);
   }
 
   // Apply damage to player

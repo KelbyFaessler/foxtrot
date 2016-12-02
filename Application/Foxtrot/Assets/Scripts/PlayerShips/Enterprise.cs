@@ -18,7 +18,7 @@ public class Enterprise : ShipBase
     m_BaseMaxHealth = 10f;
     m_MoveSpeed = 0.3f;
     m_Name = "USS Enterprise";
-    m_Acceleration = 0.004f;
+    m_Acceleration = 0.2f;
 
     if (m_SpriteRenderer == null)
     {
