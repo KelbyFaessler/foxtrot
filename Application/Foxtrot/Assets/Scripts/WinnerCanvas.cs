@@ -12,9 +12,12 @@ public class WinnerCanvas : MonoBehaviour {
     if (Player.instance != null)
     {
       scoreText.text = string.Format("{0}", Player.instance.m_Score);
-      Player.instance.gameObject.SetActive(false);
+      Player.instance.SetVisible(false);
       Player.instance.ResetPlayer();
     }
+    if (HUDCanvas.instance != null)
+      HUDCanvas.instance.gameObject.SetActive(false);
+
     Invoke("LoadMainMenu", 9f);
   }
 
