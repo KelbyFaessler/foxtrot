@@ -7,6 +7,7 @@ public class LevelTwoTransition : MonoBehaviour {
   // Use this for initialization
   void Start()
   {
+    HUDCanvas.instance.gameObject.SetActive(false);
     Invoke("LoadLevelTwo", 3.0f);
   }
 
@@ -21,5 +22,6 @@ public class LevelTwoTransition : MonoBehaviour {
     var result = SceneManager.LoadSceneAsync("LevelTwo");
     result.allowSceneActivation = true;
     Player.instance.SetVisible(true);
+    HUDCanvas.instance.gameObject.SetActive(true);
   }
 }

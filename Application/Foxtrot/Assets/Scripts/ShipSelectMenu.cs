@@ -43,7 +43,6 @@ public class ShipSelectMenu : MonoBehaviour {
     //  m_ProgressSlider.value = result.progress;
     //}
   }
-    HUDCanvas.instance.gameObject.SetActive(true);
 
   /*************************************************/
   /** HideSlider

@@ -19,5 +19,6 @@ public class LevelOneTransition : MonoBehaviour {
     var result = SceneManager.LoadSceneAsync("LevelOne");
     result.allowSceneActivation = true;
     Player.instance.SetVisible(true);
+    HUDCanvas.instance.gameObject.SetActive(true);
   }
 }
