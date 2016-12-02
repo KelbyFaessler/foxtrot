@@ -121,7 +121,9 @@ public class Player : MonoBehaviour {
 
     if (Input.GetKey("escape"))
     {
-      Application.Quit();
+      ResetPlayer();
+      HUDCanvas.instance.gameObject.SetActive(false);
+      SceneManager.LoadSceneAsync("MainMenu");
     }
 
     if (m_Destroyed)
