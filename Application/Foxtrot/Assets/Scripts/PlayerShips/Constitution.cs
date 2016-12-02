@@ -15,9 +15,9 @@ public class Constitution : ShipBase {
 	// Use this for initialization
 	void Awake () {
     m_BaseMaxHealth = 15f;
-    m_MoveSpeed     = 0.1f;
+    m_MoveSpeed     = 0.2f;
     m_Name          = "Constitution";
-    m_Acceleration  = 0.005f;
+    m_Acceleration  = 0.15f;
     
     if (m_SpriteRenderer == null)
     {
