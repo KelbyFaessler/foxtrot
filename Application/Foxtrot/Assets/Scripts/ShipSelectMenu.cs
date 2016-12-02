@@ -35,17 +35,15 @@ public class ShipSelectMenu : MonoBehaviour {
   public void LoadScene(int ship)
   {
     Player.instance.SetShip((Player.EShip)ship);
-    var result = SceneManager.LoadSceneAsync("LevelOne");
-    result.allowSceneActivation = true;
-    HideSlider(false);
-    while (result.progress < 0.9f)
-    {
-      // Play loading animation
-      m_ProgressSlider.value = result.progress;
-    }
-    Player.instance.SetVisible(true);
-    HUDCanvas.instance.gameObject.SetActive(true);
+    SceneManager.LoadSceneAsync("LevelOneTransition");
+    HideSlider(true);
+    //while (result.progress < 0.9f)
+    //{
+    //  // Play loading animation
+    //  m_ProgressSlider.value = result.progress;
+    //}
   }
+    HUDCanvas.instance.gameObject.SetActive(true);
 
   /*************************************************/
   /** HideSlider
