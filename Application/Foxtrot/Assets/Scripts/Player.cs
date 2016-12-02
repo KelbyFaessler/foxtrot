@@ -2,7 +2,7 @@
  * File:            Player.cs
  * Author:          David Hite
  * Date Created:    10/2/2016
- * Date Modified:   11/10/2016
+ * Date Modified:   12/2/2016
  * Description:
  * Contains the Player class, which controls the behavior of the 
  * Player object
@@ -304,7 +304,7 @@ public class Player : MonoBehaviour {
         m_HorizontalSpeed += (m_Ship.m_Acceleration * DECEL_FACTOR);
       else if (m_HorizontalSpeed > 0)
         m_HorizontalSpeed -= (m_Ship.m_Acceleration * DECEL_FACTOR);
-      if (Mathf.Abs(m_HorizontalSpeed) < 0.05)
+      if (Mathf.Abs(m_HorizontalSpeed) < 0.1f)
         m_HorizontalSpeed = 0f;
     }
     if (!verticalAcceleration)
@@ -313,7 +313,7 @@ public class Player : MonoBehaviour {
         m_VerticalSpeed += (m_Ship.m_Acceleration * DECEL_FACTOR);
       else if (m_VerticalSpeed > 0)
         m_VerticalSpeed -= (m_Ship.m_Acceleration * DECEL_FACTOR);
-      if (Mathf.Abs(m_VerticalSpeed) < 0.05f)
+      if (Mathf.Abs(m_VerticalSpeed) < 0.1f)
         m_VerticalSpeed = 0f;
     }
 
@@ -349,11 +349,22 @@ public class Player : MonoBehaviour {
   void OnTriggerEnter2D(Collider2D other)
   {
     if (other.gameObject.tag == "Asteroid")
-      DamagePlayer(1f);
-    else if (other.gameObject.tag == "DestructibleObject" || other.gameObject.tag == "EnemyLaser")
+    {
+      Asteroid asteroid = other.gameObject.GetComponent<Asteroid>();
+      asteroid.ApplyDamage(2);
+      DamagePlayer(3f);
+    }
+    else if (other.gameObject.tag == "DestructibleObject")
+    {
+      EnemyBase enemy = other.gameObject.GetComponent<EnemyBase>();
+      enemy.ApplyDamage(2);
+      DamagePlayer(2f);
+    }
+    else if (other.gameObject.tag == "EnemyLaser")
+    {
       DamagePlayer(0.5f);
-    if (other.gameObject.tag != "PlayerWeapon")
       Destroy(other.gameObject);
+    }
   }
 
   // Apply damage to player
@@ -376,7 +387,7 @@ public class Player : MonoBehaviour {
   {
     // Reset everything, since player persists
     ResetPlayer();
-    GameObject gameOver = (GameObject) Instantiate(Resources.Load("Prefabs\\GameOverCanvas"), Camera.main.transform.position, Quaternion.identity);
+    Instantiate(Resources.Load("Prefabs\\GameOverCanvas"), Camera.main.transform.position, Quaternion.identity);
     m_Destroyed = true;
     m_TimeOfDeath = Time.time;
   }

@@ -15,6 +15,6 @@ public class StartGameButton : MonoBehaviour {
   // When the Start Game button is clicked, go to the ship selection menu
   void OnMouseUp()
   {
-    var result  = SceneManager.LoadSceneAsync("ShipSelectionMenu");
+    SceneManager.LoadSceneAsync("ShipSelectionMenu");
   }
 }
