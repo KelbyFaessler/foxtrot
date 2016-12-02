@@ -13,6 +13,7 @@ public class WinnerCanvas : MonoBehaviour {
     {
       scoreText.text = string.Format("{0}", Player.instance.m_Score);
       Player.instance.gameObject.SetActive(false);
+      Player.instance.ResetPlayer();
     }
     Invoke("LoadMainMenu", 9f);
   }
