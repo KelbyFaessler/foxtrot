@@ -43,7 +43,7 @@ public class Player : MonoBehaviour {
 
   public bool m_Visible;
 
-  private int m_Score;
+  public int m_Score;
   private Text m_ScoreText;
 
   // Connection to health slider
