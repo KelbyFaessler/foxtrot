@@ -55,7 +55,10 @@ public class EnemyBase : MonoBehaviour {
 
   protected void UpdateHealth()
   {
-    m_HealthSlider.value = m_CurrentHealth / m_HealthScale;
+    if (m_HealthSlider != null)
+    {
+      m_HealthSlider.value = m_CurrentHealth / m_HealthScale;
+    }
     //DEBUG: Q to destoy any enemy
     if (m_CurrentHealth < 1 || Input.GetKeyDown(KeyCode.Q))
     {
