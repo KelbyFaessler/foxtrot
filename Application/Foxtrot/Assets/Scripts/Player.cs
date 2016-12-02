@@ -373,17 +373,22 @@ public class Player : MonoBehaviour {
   private void PlayerDied()
   {
     // Reset everything, since player persists
-    m_CurrentHealth = m_MaxHealth;
-    m_numBombs = 0;
-    m_BombText.text = "0";
-    m_numMultiShots = 0;
-    m_MultiShotText.text = "0";
-
+    ResetPlayer();
     GameObject gameOver = (GameObject) Instantiate(Resources.Load("Prefabs\\GameOverCanvas"), Camera.main.transform.position, Quaternion.identity);
     m_Destroyed = true;
     m_TimeOfDeath = Time.time;
   }
 
+  public void ResetPlayer()
+  {
+    m_CurrentHealth = m_MaxHealth;
+    m_numBombs = 0;
+    m_BombText.text = "0";
+    m_numMultiShots = 0;
+    m_MultiShotText.text = "0";
+    m_Score = 0;
+    m_ScoreText.text = "0";
+  }
 
   // Add to player health
   public void ApplyHealth(float health)
