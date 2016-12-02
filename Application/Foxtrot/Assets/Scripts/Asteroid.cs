@@ -7,6 +7,7 @@ public class Asteroid : MonoBehaviour {
   private int m_DestructionFrames;
   private int m_Durability;
   private int m_DropNumber;
+  private AudioSource m_ImpactAudio;
 
   // Use this for initialization
   void Start () {
@@ -14,7 +15,9 @@ public class Asteroid : MonoBehaviour {
     m_DestructionFrames = 0;
     m_Durability = Random.Range(3, 7);
     m_DropNumber = Random.Range(0, 10);
-	}
+    GameObject impactAudioObject = (GameObject)Instantiate(Resources.Load("EnemyImpact"), transform.position, Quaternion.identity);
+    m_ImpactAudio = impactAudioObject.GetComponent<AudioSource>();
+  }
 	
 	// Update is called once per frame
 	void Update () {
@@ -64,6 +67,7 @@ public class Asteroid : MonoBehaviour {
   public void ApplyDamage(int damage)
   {
     m_Durability -= damage;
+    m_ImpactAudio.Play();
     if (m_Durability < 1)
     {
       DestroyAsteroid();

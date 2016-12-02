@@ -17,6 +17,7 @@ public class EnemyBase : MonoBehaviour {
   public float m_SpriteHeightFromCenter;
   public int m_DropNumber;
   public Slider m_HealthSlider;
+  private AudioSource m_ImpactAudio;
 
   // Each ship can have a different starting max health and move speed
   public float m_BaseMaxHealth;
@@ -42,7 +43,9 @@ public class EnemyBase : MonoBehaviour {
     m_HealthScale = m_BaseMaxHealth / 10f;
     // the drop number will determine which, if any, item an enemy drops
     m_DropNumber = (int)Random.Range(0, 17);
-	}
+    GameObject impactAudioObject = (GameObject)Instantiate(Resources.Load("EnemyImpact"), transform.position, Quaternion.identity);
+    m_ImpactAudio = impactAudioObject.GetComponent<AudioSource>();
+  }
 	
 	// Update is called once per frame
 	void Update () {
@@ -63,6 +66,7 @@ public class EnemyBase : MonoBehaviour {
   public void ApplyDamage(int damage)
   {
     m_CurrentHealth -= damage;
+    m_ImpactAudio.Play();
   }
 
   protected virtual void DestroySelf()

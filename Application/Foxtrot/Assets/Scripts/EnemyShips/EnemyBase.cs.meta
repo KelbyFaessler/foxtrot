@@ -1,10 +1,14 @@
 fileFormatVersion: 2
 guid: f8ec2405d3fc3d042aeef6878efddad0
-timeCreated: 1476757183
+timeCreated: 1480659795
 licenseType: Free
 MonoImporter:
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - m_HealthSlider: {instanceID: 0}
+  - m_ImpactAudio: {fileID: 82000010242647076, guid: 7087a1040d3fe0e4f80fa59bf3f5103a,
+      type: 2}
+  - m_SpriteRenderer: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 
