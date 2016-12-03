@@ -9,8 +9,8 @@ public class EnemySpawnerLevelOne : MonoBehaviour
 	float VelesCounter = 0f;
 	float NorexanCounter = 0f;
 
-	float maxVelesSpawns = 70f;
-	float maxNorexanSpawns = 70f;
+	float maxVelesSpawns = 55f;
+	float maxNorexanSpawns = 55f;
 	float maxDderidexSpawns = 0f;
 
 	// Use this for initialization
