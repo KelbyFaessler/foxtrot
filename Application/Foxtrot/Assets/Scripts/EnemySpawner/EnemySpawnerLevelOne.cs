@@ -42,9 +42,6 @@ public class EnemySpawnerLevelOne : MonoBehaviour
 
 			GameObject anVeles = (GameObject)Instantiate (LevelOneEnemies [0]);
 			anVeles.transform.position = new Vector2 (maxX, Random.Range(minY, maxY));
-      //DEBUG
-      Debug.Log(Time.realtimeSinceStartup.ToString() + ": New Veles spawned");
-      //END DEBUG
 
       ScheduleNextVelesSpawn();
 			VelesCounter++;
@@ -64,9 +61,6 @@ public class EnemySpawnerLevelOne : MonoBehaviour
 			spawnInNSeconds = 1f;
 		}
     
-    //DEBUG
-    Debug.Log(Time.realtimeSinceStartup.ToString() + ": Spawn Veles in " + spawnInNSeconds.ToString());
-    //END DEBUG
     Invoke ("SpawnEnemyVeles", spawnInNSeconds);
 	}
 
@@ -80,11 +74,6 @@ public class EnemySpawnerLevelOne : MonoBehaviour
     {
       maxVelesSpawnRateInSeconds = 0.25f;
     }
-    //DEBUG
-    Debug.Log(Time.realtimeSinceStartup.ToString() + ": Veles Spawn Rate increased to " + maxVelesSpawnRateInSeconds.ToString());
-    //END DEBUG
-    //if (maxVelesSpawnRateInSeconds == 1f)
-    //	CancelInvoke("IncreaseVelesSpawnRate");
   }
 
 
@@ -132,9 +121,6 @@ public class EnemySpawnerLevelOne : MonoBehaviour
     {
       maxNorexanSpawnRateInSeconds = 0.5f;
     }
-    
-    //  if (maxNorexanSpawnRateInSeconds == 1f)
-		//	CancelInvoke("IncreaseNorexanSpawnRate");
 	}
 
 	void SpawnEnemyDderidex()
