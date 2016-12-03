@@ -4,7 +4,7 @@ using System.Collections;
 public class LaserPlayer : MonoBehaviour {
   private float m_speed;
   private bool m_travelRight;
-  private int m_AttackPoints = 1;
+  private int m_AttackPoints = 20;
 
   // Use this for initialization
   void Start()
